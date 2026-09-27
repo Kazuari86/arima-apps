@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プライバシーポリシー｜夜勤睡眠スコア</title>
+<meta name="description" content="夜勤睡眠スコア（シフト勤務者のための回復コーチ）のプライバシーポリシー。記録は端末内にのみ保存し、外部へ送信しません。アプリの更新確認のためにだけ Expo のサーバーと通信します。">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6f8fb;
+    --card: #ffffff;
+    --text: #16224a;
+    --muted: #55607e;
+    --accent: #007e9c;
+    --line: #dfe5ef;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #070b18;
+      --card: #101731;
+      --text: #e8edf9;
+      --muted: #9aa6c4;
+      --accent: #4fe3d0;
+      --line: #222c4d;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 64px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", "Yu Gothic UI", sans-serif;
+    line-height: 1.9;
+    font-size: 16px;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px 28px 40px;
+  }
+  h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: .02em; }
+  .app { font-size: 14px; color: var(--accent); font-weight: 700; margin: 0 0 20px; }
+  .updated { font-size: 14px; color: var(--muted); margin: 0 0 28px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  h2 { font-size: 17px; margin: 32px 0 8px; }
+  p { margin: 0 0 12px; }
+  footer { max-width: 720px; margin: 24px auto 0; font-size: 13px; color: var(--muted); text-align: center; }
+  a { color: var(--accent); }
+  @media (max-width: 480px) {
+    body { padding: 20px 14px 48px; }
+    main { padding: 24px 18px 32px; border-radius: 14px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <p class="app">夜勤睡眠スコア</p>
+  <h1>プライバシーポリシー</h1>
+  <p class="updated">施行日：2026年9月28日</p>
+
+  <h2>1. 取得する情報</h2>
+  <p>夜勤睡眠スコア（以下「本アプリ」）は、あなたが入力した勤務予定・睡眠の記録・各種設定を取り扱います。氏名・メールアドレス・電話番号などの個人を特定する情報の登録は求めません。このほか、あなたが許可した場合に限り、iPhone の「ヘルスケア」から睡眠のデータを読み込みます（次項）。</p>
+
+  <h2>2. ヘルスケア（HealthKit）との連携</h2>
+  <p>iPhone の「ヘルスケア」に記録された睡眠を読み込むことができます（設定 →「ヘルスケア連携」／iPhone のみ）。この連携は初期状態では無効です。あなたが iPhone の許可画面で読み取りを許可したときにはじめて有効になり、以後は本アプリを開いたときに新しい睡眠を自動で読み込みます（設定の「いま読み込む」からその場で読み込むこともできます）。許可していないあいだは一度も読み込みません。読み込むのは睡眠の記録だけで、歩数・心拍数・体重など、ほかの健康データは読み込みません。読み取り専用であり、本アプリがヘルスケアへ書き込むことはありません。読み込んだ睡眠は端末内にのみ保存し、回復スコアの計算と記録の表示だけに使います。広告・マーケティング・第三者への提供には一切使いません。許可は iPhone の「設定 → プライバシーとセキュリティ → ヘルスケア」からいつでも取り消せます。</p>
+
+  <h2>3. 情報の保存場所</h2>
+  <p>入力された情報は、お使いの端末内にのみ保存されます。開発者を含む第三者のサーバーへ自動的に送信・収集されることはありません（「5. アプリの更新について」の更新確認を除く）。</p>
+
+  <h2>4. 情報の外部送信</h2>
+  <p>本アプリは、あなたの記録を外部へ送信しません。バックアップ機能を使ってファイルを書き出す場合に限り、あなたが選んだ保存先・共有先へ、あなたの操作でデータが渡ります。書き出すファイルには、ヘルスケアから読み込んだ睡眠の記録も含まれます。どこへ渡すかはあなたが決められます。</p>
+
+  <h2>5. アプリの更新について</h2>
+  <p>不具合の修正を届けるために、起動時に更新の有無を確認します。このときだけ、Expo（米国）のサーバーと通信します。送られるのは、端末の種類・OSの版・アプリの版といった、更新を配るために必要な情報だけです。勤務予定・睡眠の記録・ヘルスケアのデータは送られません。</p>
+
+  <h2>6. 通知について</h2>
+  <p>就寝リマインドや仮眠タイマーなどの通知は、端末内で予約されるローカル通知です。通知内容が外部へ送られることはありません。通知は端末またはアプリの設定でいつでもオフにできます。</p>
+
+  <h2>7. 広告・解析</h2>
+  <p>本アプリは、第三者の広告や行動解析（トラッキング）を利用していません。</p>
+
+  <h2>8. データの削除</h2>
+  <p>設定画面の「すべてのデータを削除」から、端末内の記録をいつでも消去できます。アプリを削除した場合も、端末内のデータは失われます。</p>
+
+  <h2>9. お問い合わせで受け取る情報</h2>
+  <p>開発者があなたの個人情報を受け取るのは、あなたがメールでお問い合わせをくださったときだけです。このとき受け取るメールアドレスとお問い合わせの内容は、返信のためだけに使い、法令にもとづく場合を除いて第三者に提供しません。</p>
+
+  <h2>10. 健康に関する注意・免責</h2>
+  <p>本アプリが示す回復スコア・判定・アドバイスは、公的機関の睡眠ガイドや一般に公開されている調査をもとに作成した「本アプリ独自の目安」です。医療行為・診断ではなく、科学的根拠や効果を保証するものではありません。判定基準の詳細と出典は、設定の「回復スコアのしくみ」でご確認いただけます。体調に不安があるときは医療機関にご相談ください。</p>
+
+  <h2>11. 改定</h2>
+  <p>本ポリシーは必要に応じて改定することがあります。改定するときは、改定後の内容と施行日を、アプリ内または公開ページで事前にお知らせします。</p>
+
+  <h2>12. お問い合わせ</h2>
+  <p>本ポリシーに関するお問い合わせは、<a href="mailto:arima.app.support@gmail.com">arima.app.support@gmail.com</a> までご連絡ください。</p>
+</main>
+<footer>夜勤睡眠スコア — 利用規約は <a href="./terms.html">こちら</a></footer>
+</body>
+</html>
