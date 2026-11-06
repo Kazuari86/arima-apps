@@ -3,78 +3,199 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Arima Apps</title>
+<title>午前三時の発明所 — 困ったから、つくった。</title>
+<meta name="description" content="昼夜交替の勤務をしながら、ひとりでつくっているiPhoneアプリ。自分と家族が困ったことを、ひとつずつ形にしています。登録なし・広告なし・買い切り中心。">
+<meta property="og:title" content="午前三時の発明所">
+<meta property="og:description" content="困ったから、つくった。登録なし・広告なし・買い切り中心のiPhoneアプリ。">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
-  :root { color-scheme: light dark; --bg:#f6f8fb; --card:#fff; --text:#16224a; --muted:#55607e; --accent:#007e9c; --line:#dfe5ef; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#070b18; --card:#101731; --text:#e8edf9; --muted:#9aa6c4; --accent:#4fe3d0; --line:#222c4d; } }
-  * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font-family: system-ui, -apple-system, "Hiragino Sans", "Yu Gothic UI", sans-serif; line-height:1.7; }
-  main { max-width:720px; margin:0 auto; padding:32px 16px 64px; }
-  h1 { font-size:1.6rem; margin:0 0 4px; }
-  h2 { font-size:1.15rem; margin:32px 0 12px; }
-  p.lead { color:var(--muted); margin:0 0 24px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px; margin:12px 0; }
-  .card h3 { margin:0 0 6px; font-size:1.05rem; }
-  .card p { margin:0; }
-  a { color:var(--accent); }
-  .links a { margin-right:16px; display:inline-block; }
-  footer { color:var(--muted); font-size:.85rem; margin-top:48px; }
+  :root{
+    --bg:#F4F2EC; --ink:#17191D; --muted:#4F535B; --faint:#7A7F88; --line:#DDD9CF;
+    --accent:#4A5BCF;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,72px)}
+
+  header{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:16px}
+  .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .brand b{font-size:19px;font-weight:900;letter-spacing:.04em}
+  .brand i{font-family:"Instrument Serif",serif;font-size:15px;color:var(--faint)}
+  nav{display:flex;gap:clamp(14px,3vw,32px);font-size:14px;font-weight:500}
+  nav a:hover{opacity:.7}
+
+  .hero{display:grid;grid-template-columns:7fr 5fr;gap:32px;align-items:center;padding:24px 0 0;position:relative}
+  .hero h1{margin:0 0 20px;font-size:clamp(44px,7vw,92px);line-height:1.12;font-weight:900;letter-spacing:-.03em}
+  .hero h1 .dot{color:var(--accent);transition:color .35s}
+  .hero .line{margin:0 0 14px;font-size:clamp(18px,2.2vw,24px);line-height:1.6;font-weight:700;min-height:2.4em}
+  .hero .desc{margin:0 0 26px;font-size:16px;color:var(--muted);max-width:520px;min-height:4.2em}
+  .cta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;height:54px;padding:0 28px;background:var(--ink);color:var(--bg);border-radius:999px;font-weight:700;font-size:15px;transition:opacity .2s}
+  .btn:hover{opacity:.8}
+  .btn.muted{background:transparent;color:var(--faint);border:1px solid var(--line);cursor:default}
+  .tag{font-family:"Instrument Serif",serif;font-style:italic;font-size:17px;color:var(--faint)}
+
+  .stage{position:relative;height:700px}
+  .blob{position:absolute;right:-40px;top:30px;width:min(560px,100%);aspect-ratio:1;border-radius:50%;background:var(--accent);opacity:.14;transition:background .35s}
+  .phone{position:absolute;left:50%;top:40px;width:min(270px,70%);transform:translateX(-50%) rotate(4deg);border-radius:28px;overflow:hidden;box-shadow:0 30px 60px rgba(23,25,29,.22);background:#fff;transition:opacity .25s}
+  .phone.swap{opacity:0}
+  .phone img{width:100%;height:auto}
+  .phone.empty{aspect-ratio:442/960;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:14px;background:#e9e6de}
+
+  .icons{display:flex;justify-content:center;gap:clamp(14px,2.5vw,28px);flex-wrap:wrap;padding:36px 0 8px}
+  .ico{border:0;padding:0;background:transparent;cursor:pointer;border-radius:30px;transition:transform .2s,opacity .2s;opacity:.72;position:relative}
+  .ico img,.ico .ph{width:clamp(72px,9vw,112px);height:clamp(72px,9vw,112px);border-radius:24%;box-shadow:0 12px 24px rgba(23,25,29,.14)}
+  .ico .ph{display:flex;align-items:center;justify-content:center;background:#2A2D3A;color:#fff;font-size:12px;font-weight:700;line-height:1.3;text-align:center;padding:6px}
+  .ico:hover{transform:translateY(-4px);opacity:1}
+  .ico.on{opacity:1;transform:translateY(-4px);box-shadow:0 0 0 4px var(--bg),0 0 0 8px var(--accent)}
+  .ico.coming{opacity:.4}
+  .ico .badge{position:absolute;top:-8px;right:-8px;background:var(--ink);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.06em}
+  .hint{text-align:center;font-size:13px;color:var(--faint);margin:14px 0 48px}
+
+  section.band{padding:64px 0;border-top:1px solid var(--line)}
+  .two{display:grid;grid-template-columns:1fr 2fr;gap:40px}
+  .two h2{margin:0;font-family:"Instrument Serif",serif;font-size:34px;font-weight:400;line-height:1.3}
+  .two p{margin:0;font-size:16px;color:var(--muted);line-height:2}
+  .notes li{margin:0 0 10px}
+  .notes a{border-bottom:1px solid var(--ink)}
+  .notes time{color:var(--faint);font-size:13px;margin-left:10px}
+
+  footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0 40px;font-size:13px;color:var(--faint);border-top:1px solid var(--line)}
+  footer nav{gap:20px}
+
+  @media (max-width:820px){
+    .hero{grid-template-columns:1fr;min-height:0;padding-top:24px}
+    .stage{height:auto;order:-1;padding:8px 0 0}
+    .blob{right:auto;left:50%;top:0;width:280px;transform:translateX(-50%)}
+    .phone{position:relative;left:auto;top:0;transform:rotate(3deg);width:220px;margin:16px auto 0}
+    .hero h1{text-align:left}
+    .two{grid-template-columns:1fr;gap:16px}
+    header{flex-direction:column;align-items:flex-start;gap:10px}
+  }
 </style>
 </head>
 <body>
-<main>
+<div class="wrap">
 
-<h1>Arima Apps</h1>
-<p class="lead">個人で開発している iPhone アプリのサポートページです。</p>
-<h2>アプリ</h2>
+  <header>
+    <a class="brand" href="./"><b id="siteName">午前三時の発明所</b><i id="siteTag">3 a.m. inventions</i></a>
+    <nav>
+      <a href="#apps">アプリ</a>
+      <a href="#story">つくる人</a>
+      <a href="#notes" id="navNotes" hidden>記事</a>
+      <a href="support.html">サポート</a>
+    </nav>
+  </header>
 
-<div class="card">
-  <h3>みなも</h3>
-  <p class="links"><a href="catchnote/">サポート</a><a href="catchnote/privacy-policy.html">プライバシーポリシー</a><a href="catchnote/terms.html">利用規約</a></p>
+  <section class="hero">
+    <div>
+      <h1>困ったから、<br>つくった<span class="dot">。</span></h1>
+      <p class="line" id="hLine"></p>
+      <p class="desc" id="hDesc"></p>
+      <div class="cta">
+        <a class="btn" id="hBtn" href="#" target="_blank" rel="noopener"></a>
+        <span class="tag" id="hTag"></span>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="blob"></div>
+      <div class="phone" id="hPhone"></div>
+    </div>
+  </section>
+
+  <section id="apps">
+    <div class="icons" id="icons"></div>
+    <p class="hint">アイコンを押すと、上の言葉と画面が切り替わります</p>
+  </section>
+
+  <section class="band" id="story">
+    <div class="two">
+      <h2>つくっている人</h2>
+      <p id="about"></p>
+    </div>
+  </section>
+
+  <section class="band" id="notes" hidden>
+    <div class="two">
+      <h2>記事</h2>
+      <ul class="notes" id="noteList" style="list-style:none;margin:0;padding:0"></ul>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 <span id="footName">午前三時の発明所</span></span>
+    <nav>
+      <a href="support.html">サポート</a>
+      <a id="mail" href="#">お問い合わせ</a>
+    </nav>
+  </footer>
 </div>
-<div class="card">
-  <h3>夜勤睡眠スコア</h3>
-  <p class="links"><a href="shiftsleep/">サポート</a><a href="shiftsleep/privacy-policy.html">プライバシーポリシー</a><a href="shiftsleep/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>よてい家</h3>
-  <p class="links"><a href="familyshare/">サポート</a><a href="familyshare/privacy-policy.html">プライバシーポリシー</a><a href="familyshare/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>ととのいlife</h3>
-  <p class="links"><a href="totonoilife/">サポート</a><a href="totonoilife/privacy-policy.html">プライバシーポリシー</a><a href="totonoilife/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>医療費つうちょう</h3>
-  <p class="links"><a href="app-20260819/">サポート</a><a href="app-20260819/privacy-policy.html">プライバシーポリシー</a><a href="app-20260819/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>道の駅アプリ</h3>
-  <p class="links"><a href="app-20260819-2/">サポート</a><a href="app-20260819-2/privacy-policy.html">プライバシーポリシー</a><a href="app-20260819-2/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>けさの手札</h3>
-  <p class="links"><a href="talkcard/">サポート</a><a href="talkcard/privacy-policy.html">プライバシーポリシー</a><a href="talkcard/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>仮置きカメラ</h3>
-  <p class="links"><a href="jobshotbox/">サポート</a><a href="jobshotbox/privacy-policy.html">プライバシーポリシー</a><a href="jobshotbox/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>休日コンパス</h3>
-  <p class="links"><a href="holidayhindsight/">サポート</a><a href="holidayhindsight/privacy-policy.html">プライバシーポリシー</a><a href="holidayhindsight/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>こけだま日和</h3>
-  <p class="links"><a href="kokedama/">サポート</a><a href="kokedama/privacy-policy.html">プライバシーポリシー</a><a href="kokedama/terms.html">利用規約</a></p>
-</div>
-<div class="card">
-  <h3>おにさんこちら</h3>
-  <p class="links"><a href="onigokko/">サポート</a><a href="onigokko/privacy-policy.html">プライバシーポリシー</a><a href="onigokko/terms.html">利用規約</a></p>
-</div>
-<h2>お問い合わせ</h2>
-<div class="card"><p><a href="mailto:arima.app.support@gmail.com">arima.app.support@gmail.com</a></p></div>
-<footer>© 2026 Arima Apps</footer>
-</main>
+
+<script src="apps.js"></script>
+<script>
+(function(){
+  const S = window.SITE || {};
+  const all = (window.APPS || []).filter(a => a.status !== "hidden");
+  const $ = id => document.getElementById(id);
+
+  $("siteName").textContent = S.name || "";
+  $("siteTag").textContent = S.tagline || "";
+  $("footName").textContent = S.name || "";
+  $("about").textContent = S.about || "";
+  if (S.email) $("mail").href = "mailto:" + S.email;
+
+  // 記事（あるときだけ出す）
+  const notes = window.NOTES || [];
+  if (notes.length){
+    $("notes").hidden = false; $("navNotes").hidden = false;
+    $("noteList").innerHTML = notes.map(n =>
+      `<li><a href="${n.url}">${n.title}</a>${n.date ? `<time>${n.date}</time>` : ""}</li>`).join("");
+  }
+
+  // アイコン列
+  const icons = $("icons");
+  all.forEach((a, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "ico" + (a.status === "coming" ? " coming" : "");
+    b.setAttribute("aria-label", a.name); b.dataset.i = i;
+    b.innerHTML = a.icon
+      ? `<img src="${a.icon}" alt="">`
+      : `<span class="ph">${a.name}</span>`;
+    if (a.status === "coming") b.innerHTML += `<span class="badge">近日</span>`;
+    b.addEventListener("click", () => select(i));
+    icons.appendChild(b);
+  });
+
+  let cur = -1;
+  function select(i){
+    if (i === cur) return;
+    const a = all[i]; cur = i;
+    document.documentElement.style.setProperty("--accent", a.accent || "#4A5BCF");
+    $("hLine").textContent = a.line || "";
+    $("hDesc").textContent = a.desc || "";
+    $("hTag").textContent  = a.tag  || "";
+    const btn = $("hBtn");
+    if (a.status === "released" && a.store){
+      btn.textContent = a.name + " を App Store で見る"; btn.href = a.store; btn.className = "btn";
+    } else {
+      btn.textContent = a.name + "（近日公開）"; btn.removeAttribute("href"); btn.className = "btn muted";
+    }
+    const ph = $("hPhone");
+    ph.classList.add("swap");
+    setTimeout(() => {
+      ph.className = "phone" + (a.shot ? "" : " empty");
+      ph.innerHTML = a.shot ? `<img src="${a.shot}" alt="${a.name} の画面">` : "準備中";
+    }, 220);
+    icons.querySelectorAll(".ico").forEach((el, k) => el.classList.toggle("on", k === i));
+  }
+  const first = all.findIndex(a => a.status === "released");
+  select(first < 0 ? 0 : first);
+})();
+</script>
 </body>
 </html>
