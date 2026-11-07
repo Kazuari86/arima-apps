@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>よてい家 — 夜勤のある家族の予定共有アプリ｜午前三時の発明所</title>
+<meta name="description" content="「今日って夜勤？」を、家族に聞かなくていい暮らしへ。シフトはカレンダーを指でなぞるだけ。家族の今日の予定と「空き・対応中」がホームでひと目でわかるiPhoneアプリ。登録不要・広告なし。">
+<link rel="canonical" href="https://kazuari86.github.io/arima-apps/apps/yoteika/">
+<meta name="theme-color" content="#FBF4EA">
+<meta property="og:site_name" content="午前三時の発明所">
+<meta property="og:title" content="よてい家 — 「今日って夜勤？」を、家族に聞かなくていい暮らしへ。">
+<meta property="og:description" content="シフトは指でなぞるだけ。家族の今日がホームでわかる、夜勤・交代勤務のある家族のための予定共有アプリ。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kazuari86.github.io/arima-apps/apps/yoteika/">
+<meta property="og:image" content="https://kazuari86.github.io/arima-apps/og.png">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+  :root{
+    --bg:#FBF4EA; --paper:#FFFDF8; --ink:#2B241F; --muted:#6A5E54; --line:#EADCC8;
+    --or:#E07A36; --or-d:#BF5E22; --or-l:#F8DCC2; --sun:#F6B53F;
+    --navy:#24305E; --navy-l:#3A4A86; --teal:#2A9D8F; --pink:#E8607A; --green:#62A84A;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  img{display:block;max-width:100%;height:auto}
+  svg{display:block}
+  :focus-visible{outline:3px solid var(--or);outline-offset:3px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(16px,5vw,56px)}
+  .mg{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif}
+  h1,h2,h3{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif;letter-spacing:.01em}
+
+  /* 上の帯 */
+  .top{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px;font-size:13px}
+  .top a{text-decoration:none;color:var(--muted)}
+  .top a:hover{color:var(--ink)}
+  .crumb{display:flex;align-items:center;gap:8px}
+  .crumb svg{width:18px;height:18px}
+
+  /* ボタン */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:700;text-decoration:none;font-size:15px;transition:transform .15s, box-shadow .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-store{background:linear-gradient(180deg,#2E2E33,#111114);color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.18)}
+  .btn-store svg{width:20px;height:20px;fill:#fff}
+  .btn-ghost{background:var(--paper);border:1.5px solid var(--line);color:var(--ink)}
+
+  /* ヒーロー */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;padding:12px 0 40px}
+  .app-id{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .app-id img{width:64px;height:64px;border-radius:22%;box-shadow:0 6px 16px rgba(120,60,20,.18)}
+  .app-id b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:26px;font-weight:900;line-height:1.2}
+  .app-id span{font-size:13px;color:var(--muted)}
+  .nb{display:inline-block}
+  .hero h1{margin:0 0 16px;font-size:clamp(26px,3.7vw,46px);line-height:1.35;font-weight:900}
+  .hero h1 em{font-style:normal;color:var(--or-d);background:linear-gradient(transparent 62%,var(--or-l) 62%)}
+  .hero p.sub{margin:0 0 26px;font-size:clamp(15px,1.6vw,17px);color:var(--muted);max-width:30em}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .badges span{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line);color:var(--muted)}
+  .hero-art{position:relative}
+  .hero-art .scene{width:86%;height:auto;border-radius:28px;box-shadow:0 14px 34px rgba(90,45,15,.14)}
+  .hero-art .phone{position:absolute;right:0;bottom:-8%;width:27%;border-radius:18px;box-shadow:0 18px 40px rgba(60,30,10,.28);border:5px solid #1d1d1f;background:#1d1d1f}
+  .float{animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* 見出し */
+  section{padding:64px 0}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--or-d);margin-bottom:6px}
+  h2{margin:0 0 12px;font-size:clamp(24px,3.4vw,36px);line-height:1.4;font-weight:900}
+  .h2sub{margin:0 0 32px;color:var(--muted);max-width:36em}
+  .center{text-align:center}
+  .center .h2sub{margin-left:auto;margin-right:auto}
+
+  /* 困りごと */
+  .worry{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .wcard{background:var(--bg);border-radius:24px;padding:20px 20px 22px;text-align:center}
+  .wcard img{width:100%;height:auto;margin:0 0 12px;border-radius:18px}
+  .wcard b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:18px;margin-bottom:4px}
+  .wcard p{margin:0;font-size:14px;color:var(--muted)}
+  .arrow-down{display:flex;justify-content:center;margin:34px 0 0}
+  .arrow-down div{display:flex;flex-direction:column;align-items:center;gap:6px;font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:clamp(18px,2.4vw,24px)}
+  .arrow-down svg{width:30px;height:30px}
+
+  /* 3つのこと */
+  .step{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,64px);align-items:center;margin-bottom:72px}
+  .step:last-child{margin-bottom:0}
+  .step.rev .step-art{order:2}
+  .step-art{position:relative;display:flex;justify-content:center}
+  .step-art .blob{position:absolute;inset:8% 4%;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:var(--or-l);z-index:0}
+  .step-art img{position:relative;z-index:1;width:min(270px,62%);border-radius:24px;box-shadow:0 18px 40px rgba(90,45,15,.22)}
+  .step-art .deco{position:absolute;z-index:2;width:clamp(76px,26%,120px);height:auto;border-radius:50%;border:4px solid #fff;box-shadow:0 8px 20px rgba(90,45,15,.18)}
+  .num{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:15px;color:#fff;background:var(--or);display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;margin-bottom:12px;box-shadow:0 4px 10px rgba(224,122,54,.35)}
+  .step h3{margin:0 0 12px;font-size:clamp(22px,2.8vw,30px);line-height:1.45;font-weight:900}
+  .step p{margin:0 0 14px;color:var(--muted)}
+  .step ul{margin:0;padding:0;list-style:none}
+  .step li{position:relative;padding-left:28px;margin:8px 0;font-size:15px}
+  .step li::before{content:"";position:absolute;left:0;top:.5em;width:16px;height:16px;border-radius:50%;background:var(--or) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+
+  /* 1日の流れ */
+  .day{background:linear-gradient(180deg,#FFE9D2 0%,#FFF4E6 40%,#E9ECF8 72%,#2A3566 100%);border-radius:36px;padding:clamp(28px,5vw,56px);position:relative;overflow:hidden}
+  .tl{position:relative;display:grid;gap:22px;max-width:760px;margin:0 auto}
+  .tl::before{content:"";position:absolute;left:31px;top:20px;bottom:20px;width:3px;background:rgba(43,36,31,.12);border-radius:3px}
+  .ti{display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:start;position:relative}
+  .ti .ic{width:64px;height:64px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(60,30,10,.12)}
+  .ti .ic img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .ti .ic{overflow:hidden}
+  .ti .ic img{transform:scale(1.32)}
+  .ti .card{background:rgba(255,253,248,.92);border-radius:20px;padding:16px 20px}
+  .ti .t{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;color:var(--or-d);font-size:14px}
+  .ti b{display:block;font-size:17px;margin:2px 0}
+  .ti p{margin:0;font-size:14px;color:var(--muted)}
+  .ti.night .card{background:rgba(36,48,94,.9);color:#fff}
+  .ti.night .t{color:var(--sun)}
+  .ti.night p{color:#D4D9EE}
+  .day-shots{display:flex;justify-content:center;gap:16px;margin-top:34px;flex-wrap:wrap}
+  .day-shots img{width:min(190px,42%);border-radius:18px;box-shadow:0 14px 30px rgba(20,20,40,.3)}
+
+  /* つながり方 */
+  .connect{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,56px);align-items:center}
+  .connect img.conn{width:100%;height:auto;border-radius:28px}
+  .pill{display:inline-block;font-size:13px;font-weight:700;background:var(--or-l);color:var(--or-d);border-radius:999px;padding:3px 12px;margin-right:6px}
+
+  /* ほかにも */
+  .more{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .mi{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:flex-start}
+  .mi svg{width:44px;height:44px;flex:none}
+  .mi b{display:block;font-size:15px;margin-bottom:2px}
+  .mi p{margin:0;font-size:13px;color:var(--muted);line-height:1.7}
+  .gallery{display:flex;gap:16px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+  .gallery figure{margin:0;width:min(200px,44%);text-align:center}
+  .gallery img{border-radius:18px;box-shadow:0 12px 26px rgba(90,45,15,.18)}
+  .gallery figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+
+  /* 料金 */
+  .price{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .pcard{background:var(--paper);border:1.5px solid var(--line);border-radius:26px;padding:26px}
+  .pcard.pre{border-color:var(--or);box-shadow:0 10px 30px rgba(224,122,54,.14)}
+  .pcard h3{margin:0 0 4px;font-size:21px}
+  .pcard .yen{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:28px;margin:4px 0 2px}
+  .pcard .yen small{font-size:14px;font-weight:700;color:var(--muted)}
+  .pcard .note{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .pcard ul{margin:0;padding-left:1.2em;font-size:14px}
+  .pcard li{margin:4px 0}
+  .pfine{margin-top:18px;font-size:13px;color:var(--muted);background:var(--paper);border-radius:18px;padding:16px 20px;border:1px dashed var(--line)}
+  .pfine p{margin:4px 0}
+
+  /* 安心 */
+  .safe{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .sc{text-align:center;padding:10px}
+  .sc svg{width:96px;height:96px;margin:0 auto 10px}
+  .sc b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:18px}
+  .sc p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+
+  /* 最後の呼びかけ */
+  .last{background:var(--navy);color:#fff;border-radius:36px;padding:clamp(32px,6vw,64px);display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,48px);align-items:center;position:relative;overflow:hidden}
+  .last h2{color:#fff}
+  .last p{color:#D4D9EE;margin:0 0 22px}
+  .last img.moon{width:clamp(150px,20vw,220px);height:auto;border-radius:28px}
+  .last .btn-store{background:#fff;color:#111}
+  .last .btn-store svg{fill:#111}
+  .last .btn-ghost{background:transparent;border-color:rgba(255,255,255,.35);color:#fff}
+
+  footer{padding:40px 0 56px;font-size:13px;color:var(--muted)}
+  .flinks{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:12px}
+  .flinks a{text-decoration:none}
+  .flinks a:hover{text-decoration:underline}
+
+  /* 出てくる動き */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+  .rv.on{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    .float{animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* スマホ */
+  @media (max-width:820px){
+    section{padding:48px 0}
+    .hero{display:flex;flex-direction:column;align-items:stretch;padding-bottom:40px}
+    .hero>div:first-child{display:contents}
+    .app-id{order:1}.hero-art{order:2;max-width:420px;margin:0 auto 34px;width:100%}.hero h1{order:3}.hero p.sub{order:4}.cta{order:5}.badges{order:6}
+    .cta .btn{width:100%}
+    .wgrid{grid-template-columns:1fr}
+    .wcard{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center;text-align:left;padding:14px}
+    .wcard img{margin:0;border-radius:14px}
+    .step,.connect,.price{grid-template-columns:1fr}
+    .step{margin-bottom:56px}
+    .step.rev .step-art{order:0}
+    .step-art img{width:min(230px,64%)}
+    .more{grid-template-columns:1fr}
+    .safe{grid-template-columns:1fr}
+    .sc{display:grid;grid-template-columns:72px 1fr;gap:14px;text-align:left;align-items:center;padding:0}
+    .sc svg{width:72px;height:72px;margin:0}
+    .last{grid-template-columns:1fr;text-align:center}
+    .last img.moon{margin:0 auto}
+    .last .cta{justify-content:center}
+    .tl::before{left:25px}
+    .ti{grid-template-columns:52px 1fr;gap:12px}
+    .ti .ic{width:52px;height:52px}
+    
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="apple" viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.5.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-4.1zM13.9 5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></symbol>
+</svg>
+
+<div class="wrap">
+  <div class="top">
+    <a class="crumb" href="../../?app=yoteika">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      午前三時の発明所
+    </a>
+    <a href="../../familyshare/">サポート・よくある質問</a>
+  </div>
+
+  <!-- ヒーロー -->
+  <header class="hero">
+    <div>
+      <div class="app-id">
+        <img src="../../icons/yoteika.jpg" alt="よてい家のアイコン" width="64" height="64">
+        <div><b>よてい家</b><span>夜勤・交代勤務のある家族の、予定共有カレンダー</span></div>
+      </div>
+      <h1><span class="nb">「今日って夜勤？」を、</span><br><em class="nb">家族に聞かなくていい</em><span class="nb">暮らしへ。</span></h1>
+      <p class="sub">シフトはカレンダーを指でなぞるだけ。家族の今日の予定と「空き・対応中」が、ホームを開けばひと目でわかります。</p>
+      <div class="cta">
+        <a class="btn btn-store" href="https://apps.apple.com/jp/app/id6803232841" target="_blank" rel="noopener"><svg><use href="#apple"/></svg>App Store で見る</a>
+        <a class="btn btn-ghost" href="#how">どんなアプリ？</a>
+      </div>
+      <div class="badges"><span>iPhone</span><span>登録不要</span><span>広告なし</span><span>招待された家族は無料</span></div>
+    </div>
+
+    <div class="hero-art">
+      <img class="scene" src="img/hero.jpg" alt="家の左半分は夜で、紺の上着の人が夜勤に出かけるところ。右半分は昼で、家族が手を振って見送っている絵" width="1200" height="800">
+      <img class="phone float" src="../../shots/yoteika-2.jpg" alt="よてい家のホーム画面。家族それぞれの今日の予定が並ぶ" width="480" height="1043">
+    </div>
+  </header>
+</div>
+
+<!-- 困りごと -->
+<section class="worry">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">こんなこと、ありませんか？</span>
+      <h2>同じことを、毎日たずね合っている</h2>
+      <p class="h2sub">夜勤や交代勤務があると、家族の予定は毎週ちがいます。だから、つい何度も聞いてしまう。</p>
+    </div>
+    <div class="wgrid">
+      <div class="wcard rv">
+        <img src="img/worry-1.jpg" alt="今日は夜勤かどうか、首をかしげて確かめ合う家族" width="720" height="540" loading="lazy">
+        <div><b>「今日って夜勤？」</b><p>カレンダーに書いてあっても、確かめたくなる。</p></div>
+      </div>
+      <div class="wcard rv">
+        <img src="img/worry-2.jpg" alt="夕方、壁の時計を見上げて帰りを気にする家族" width="720" height="538" loading="lazy">
+        <div><b>「何時に帰る？」</b><p>夕飯やお迎えの段取りのたびに、連絡が行き来する。</p></div>
+      </div>
+      <div class="wcard rv">
+        <img src="img/worry-3.jpg" alt="冷蔵庫に貼ったメモやカレンダーが散らばって困っている家族" width="720" height="538" loading="lazy">
+        <div><b>「あれ、どこに書いたっけ」</b><p>紙のカレンダー、メモ、連絡アプリ。予定がばらばらに散らばる。</p></div>
+      </div>
+    </div>
+    <div class="arrow-down rv"><div>
+      <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 4 V24 M6 16 l9 9 l9 -9" fill="none" stroke="#E07A36" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      よてい家なら、ホームを開くだけ
+    </div></div>
+  </div>
+</section>
+
+<!-- 3つのこと -->
+<section id="how">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">よてい家でできること</span>
+      <h2>入れるのは、なぞるだけ。<br>見るのは、開くだけ。</h2>
+    </div>
+
+    <div class="step rv">
+      <div class="step-art">
+        <div class="blob"></div>
+        <img src="../../shots/yoteika-1.jpg" alt="カレンダーの日付を指でなぞってシフトを入れる画面" width="480" height="1043" loading="lazy">
+        <!-- 指でなぞる絵 -->
+        <img class="deco" style="right:4%;top:14%" src="img/c-1.jpg" alt="" width="300" height="297" loading="lazy">
+      </div>
+      <div>
+        <span class="num">01</span>
+        <h3>なぞるだけで、<br>シフトが入る</h3>
+        <p>「夜勤」を選んで、カレンダーの日付を指でスーッとなぞるだけ。1日ずつ入力する手間がありません。</p>
+        <ul>
+          <li>早番・遅番・休み・有休など、よく使う予定は最初から用意</li>
+          <li>日をまたぐ夜勤（22:00〜翌6:00など）も1件で入る</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step rev rv">
+      <div class="step-art">
+        <div class="blob" style="background:#DDE3F6"></div>
+        <img src="../../shots/yoteika-2.jpg" alt="ホームに家族それぞれの今日の予定と、空き・対応中が並ぶ画面" width="480" height="1043" loading="lazy">
+        <!-- 目の絵 -->
+        <img class="deco" style="left:4%;bottom:12%" src="img/c-2.jpg" alt="" width="300" height="297" loading="lazy">
+      </div>
+      <div>
+        <span class="num">02</span>
+        <h3>家族の「今日」が、<br>ひと目でわかる</h3>
+        <p>ホームに、家族それぞれの今日の予定と「空き・まもなく・対応中」。聞かなくても、開けばわかります。</p>
+        <ul>
+          <li>家族カレンダーでは、だれの予定かを色で見分けられる</li>
+          <li>運動会や旅行は「家族イベント」として目立たせられる</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step rv">
+      <div class="step-art">
+        <div class="blob" style="background:#FBEFC0"></div>
+        <img src="../../shots/yoteika-3.jpg" alt="ホームに付箋のメモを貼っておける画面" width="480" height="1043" loading="lazy">
+        <!-- 付箋の絵 -->
+        <img class="deco" style="right:4%;bottom:14%" src="img/c-3.jpg" alt="" width="300" height="296" loading="lazy">
+      </div>
+      <div>
+        <span class="num">03</span>
+        <h3>伝言は、<br>付箋で貼っておくだけ</h3>
+        <p>「牛乳を買ってくる」のようなメモを、はがすまでホームに残せます。</p>
+        <ul>
+          <li>ウィジェットなら、アプリを開かなくても目に入る</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="step rev rv">
+      <div class="step-art">
+        <div class="blob" style="background:#FDE0E5"></div>
+        <img src="07-notif.jpg" alt="誕生日・記念日のお知らせを設定する画面" width="480" height="1043" loading="lazy">
+        <img class="deco" style="left:4%;top:14%" src="img/d-1.jpg" alt="" width="240" height="238" loading="lazy">
+      </div>
+      <div>
+        <span class="num">04</span>
+        <h3>誕生日や記念日も、<br>入れておける</h3>
+        <p>家族それぞれの誕生日や、結婚記念日などの記念日を登録しておけます。一度入れれば、毎年くり返し出てきます。</p>
+        <ul>
+          <li>「結婚記念日」のように、名前をつけて登録できる</li>
+          <li>カレンダーでは、その日が目立つ色で表示される</li>
+          <li>1か月前・1週間前・前日に、朝8時のまとめの中でお知らせ</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 1日の流れ -->
+<section>
+  <div class="wrap">
+    <div class="day rv">
+      <div class="center">
+        <span class="kicker">たとえば、こんな1日</span>
+        <h2>夜勤の日も、家族の今日がつながっている</h2>
+      </div>
+      <div class="tl">
+        <div class="ti">
+          <div class="ic"><img src="img/d-1.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">朝 8:00</span><b>家族の今日が、1件のお知らせで届く</b><p>その日の家族の予定とメモをまとめて。誕生日・記念日や、予定の前にもお知らせします。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-2.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">昼</span><b>連絡する前に、ホームをひと目</b><p>相手が「空き」か「対応中」か。聞く前にわかるから、連絡のタイミングを選べます。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-3.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">夕方</span><b>「牛乳を買ってくる」を付箋で</b><p>帰り道に頼みたいことは、ホームに貼っておけば伝わります。</p></div>
+        </div>
+        <div class="ti night">
+          <div class="ic"><img src="img/d-4.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">夜</span><b>夜勤の家族の「対応中」が見える</b><p>仕事中だとわかるから、急ぎでない連絡は朝に回せます。</p></div>
+        </div>
+      </div>
+      <div class="day-shots">
+        <img src="08-day.jpg" alt="日付を押すと、その日の予定とメモが1枚にまとまって出る画面" width="480" height="1043" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- つながり方 -->
+<section>
+  <div class="wrap connect">
+    <div class="rv">
+      <img class="conn" src="img/connect.jpg" alt="夜勤に出る人のスマホから、家で待つ家族のスマホへ点線でつながっている絵" width="1000" height="671" loading="lazy">
+    </div>
+    <div class="rv">
+      <span class="kicker">家族とのつながり方</span>
+      <h2>8文字の招待コードで、<br>家族とつながる</h2>
+      <p>メールアドレスもパスワードも要りません。共有をはじめる1人が招待コードを出して、家族はそれを入れるだけ。</p>
+      <p><span class="pill">招待された家族</span>料金なしで参加できます。</p>
+      <p style="font-size:14px;color:var(--muted)">機種変更の時は、新しい端末で同じ家族に参加して自分の席を選ぶと、共有していた予定が戻ります（共有していない予定は引き継がれません）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ほかにも -->
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">ほかにも</span>
+      <h2>毎日使うから、<span class="nb">細かいところも</span></h2>
+    </div>
+    <div class="more">
+      <div class="mi rv"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#F8DCC2"/><rect x="13" y="20" width="18" height="14" rx="3" fill="#E07A36"/><path d="M16 20 v-4 a6 6 0 0 1 12 0 v4" fill="none" stroke="#E07A36" stroke-width="3"/></svg><div><b>自分だけの予定</b><p>見せたくない予定は「自分だけ」に。家族の画面には出ません。</p></div></div>
+      <div class="mi rv"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#DDE3F6"/><rect x="12" y="13" width="20" height="19" rx="3" fill="#fff" stroke="#24305E" stroke-width="2.5"/><path d="M12 19 h20" stroke="#24305E" stroke-width="2.5"/><path d="M30 28 l5 -3 l-5 -3 M14 28 l-5 -3 l5 -3" fill="none" stroke="#E07A36" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg><div><b>iPhone のカレンダーと</b><p>iPhone のカレンダーから取り込み・書き出しができます。</p></div></div>
+      <div class="mi rv"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#FBEFC0"/><circle cx="16" cy="18" r="5" fill="#E07A36"/><circle cx="28" cy="18" r="5" fill="#2A9D8F"/><circle cx="16" cy="29" r="5" fill="#E8607A"/><circle cx="28" cy="29" r="5" fill="#24305E"/></svg><div><b>着せ替えテーマ8種類</b><p>好きな色に着せ替えられます。ダークモードにも対応。</p></div></div>
+      <div class="mi rv"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#F8DCC2"/><rect x="11" y="11" width="10" height="10" rx="3" fill="#E07A36"/><rect x="23" y="11" width="10" height="10" rx="3" fill="#fff" stroke="#E07A36" stroke-width="2"/><rect x="11" y="23" width="22" height="10" rx="3" fill="#FCE38A"/></svg><div><b>ウィジェット</b><p>ホーム画面に置けば、アプリを開かなくても目に入ります。</p></div></div>
+      <div class="mi rv"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#FDE0E5"/><rect x="12" y="20" width="20" height="13" rx="2" fill="#E8607A"/><rect x="10" y="15" width="24" height="6" rx="2" fill="#F48FA2"/><path d="M22 15 v18" stroke="#FCE38A" stroke-width="3"/><path d="M22 15 q-6 -7 -8 -1 q2 2 8 1 q6 1 8 -1 q-2 -6 -8 1z" fill="#FCE38A"/></svg><div><b>予定の前にもお知らせ</b><p>入れた予定の前にも、忘れないようにお知らせします。</p></div></div>
+      <div class="mi rv"><svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="22" fill="#DDF0EC"/><path d="M13 30 l4 -12 l5 6 l5 -10 l5 16z" fill="#2A9D8F"/><circle cx="31" cy="13" r="3" fill="#F6B53F"/></svg><div><b>家族イベント</b><p>運動会や旅行は、家族カレンダーで目立つように。</p></div></div>
+    </div>
+    <div class="gallery rv">
+      <figure><img src="04-family.jpg" alt="家族みんなの予定が色分けで並ぶ家族カレンダー" width="480" height="1043" loading="lazy"><figcaption>家族カレンダー</figcaption></figure>
+      <figure><img src="06-theme.jpg" alt="着せ替えテーマを選ぶ画面" width="480" height="1043" loading="lazy"><figcaption>着せ替えテーマ</figcaption></figure>
+      <figure><img src="05-dark.jpg" alt="ダークモードの画面" width="480" height="1043" loading="lazy"><figcaption>ダークモード</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 料金 -->
+<section id="price">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">料金</span>
+      <h2>1台で使うぶんは、ずっと無料</h2>
+      <p class="h2sub">家族と予定を見せ合う（共有する）時だけ、共有をはじめる1人がプレミアムに入ります。</p>
+    </div>
+    <div class="price">
+      <div class="pcard rv">
+        <h3>無料のまま使えること</h3>
+        <div class="yen">0<small> 円</small></div>
+        <p class="note">メンバー（色分けする人）は10人まで</p>
+        <ul>
+          <li>予定の作成、カレンダー、お知らせ、なぞって入力</li>
+          <li>付箋メモ、着せ替えテーマ、ウィジェット</li>
+          <li>iPhone のカレンダー連携</li>
+          <li>家族から招待コードをもらって参加する</li>
+        </ul>
+      </div>
+      <div class="pcard pre rv">
+        <h3>プレミアムで増えること</h3>
+        <div class="yen">月300<small> 円</small>　／　年1,800<small> 円</small></div>
+        <p class="note">どちらも自動更新。はじめて入る方は、最初の1か月はお試し期間で料金がかかりません。</p>
+        <ul>
+          <li>家族と共有をはじめて招待コードを出し、予定やメモを見せ合う</li>
+          <li>なぞった並びを、翌月以降まで繰り返し登録</li>
+          <li>大判メモ（写真をつける・季節のイラスト枠14種）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pfine rv">
+      <p>・やめても、作った予定・メモ・メンバーは消えず、つながっている家族との共有も止まりません。</p>
+      <p>・料金は Apple ID に請求されます。期間が終わる24時間前までに解約しない限り、自動で更新されます。解約は iPhone の「設定」→ 自分の名前 →「サブスクリプション」からいつでもできます。</p>
+      <p>・くわしくは <a href="../../familyshare/pricing.html">料金のしくみ</a> をご覧ください。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 安心 -->
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="safe">
+      <div class="sc rv">
+        <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="46" fill="#F8DCC2"/><rect x="26" y="30" width="44" height="34" rx="6" fill="#fff" stroke="#2B241F" stroke-width="3"/><path d="M26 36 l22 14 l22 -14" fill="none" stroke="#2B241F" stroke-width="3"/><path d="M20 76 L76 20" stroke="#E07A36" stroke-width="6" stroke-linecap="round"/></svg>
+        <div><b>登録不要</b><p>メールアドレスもパスワードも要りません。</p></div>
+      </div>
+      <div class="sc rv">
+        <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="46" fill="#DDE3F6"/><rect x="30" y="20" width="36" height="58" rx="8" fill="#2B241F"/><rect x="34" y="26" width="28" height="44" rx="4" fill="#fff"/><path d="M41 48 l5 5 l9 -11" fill="none" stroke="#2A9D8F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><b>記録は、手元に</b><p>共有を使わない間は、予定やメモは端末の外へ出ません。</p></div>
+      </div>
+      <div class="sc rv">
+        <svg viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="46" fill="#FBEFC0"/><rect x="22" y="30" width="52" height="36" rx="6" fill="#fff" stroke="#2B241F" stroke-width="3"/><text x="48" y="54" text-anchor="middle" font-family="Zen Maru Gothic, sans-serif" font-weight="900" font-size="15" fill="#2B241F">AD</text><path d="M20 76 L76 20" stroke="#E07A36" stroke-width="6" stroke-linecap="round"/></svg>
+        <div><b>広告なし</b><p>予定を見るたびに広告が出ることはありません。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 最後 -->
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="last rv">
+      <img class="moon" src="img/night.jpg" alt="" width="600" height="600" loading="lazy">
+      <div>
+        <h2>夜勤の日も、家族の今日がわかる。</h2>
+        <p>1台で使うぶんは、ずっと無料。まずは自分のシフトをなぞるところから。</p>
+        <div class="cta">
+          <a class="btn btn-store" href="https://apps.apple.com/jp/app/id6803232841" target="_blank" rel="noopener"><svg><use href="#apple"/></svg>App Store で見る</a>
+          <a class="btn btn-ghost" href="../../familyshare/">よくある質問</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="../../?app=yoteika">← 午前三時の発明所 トップ</a>
+      <a href="../../familyshare/">サポート</a>
+      <a href="../../familyshare/pricing.html">料金のしくみ</a>
+      <a href="../../familyshare/terms.html">利用規約</a>
+      <a href="../../familyshare/privacy-policy.html">プライバシーポリシー</a>
+    </div>
+    <div>予定を忘れないための補助です。大切な予定は、ほかの方法でも確かめてください。</div>
+    <div style="margin-top:6px">© 午前三時の発明所</div>
+  </div>
+</footer>
+
+<script>
+  // 画面に入ったものから、ふわっと出す
+  (function(){
+    var els=document.querySelectorAll('.rv');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('on')});return;}
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>

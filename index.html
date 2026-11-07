@@ -213,7 +213,7 @@
         <p class="desc" id="hDesc"></p>
         <div class="cta">
           <a class="btn" id="hBtn" href="#" target="_blank" rel="noopener"></a>
-          <a class="more" href="#detail">くわしく見る</a>
+          <a class="more" id="hMore" href="#detail">くわしく見る</a>
           <span class="tag" id="hTag"></span>
         </div>
       </div>
@@ -343,6 +343,7 @@
       `</div>`;
     const cta =
       `<div class="d-cta">${storeBtn(a)}` +
+      (a.page ? `<a class="more" href="${esc(a.page)}">くわしい紹介ページを見る →</a>` : "") +
       (a.support ? `<a class="more" href="${esc(a.support)}">サポート・よくある質問</a>` : "") +
       `</div>`;
     return head + feats + info + cta;
@@ -363,6 +364,9 @@
       $("hLine").textContent = a.line || "";
       $("hDesc").textContent = a.desc || "";
       $("hTag").textContent  = a.tag  || "";
+      const more = $("hMore");
+      more.href = a.page ? a.page : "#detail";
+      more.textContent = a.page ? "紹介ページを見る →" : "くわしく見る";
       const btn = $("hBtn");
       if (a.status === "released" && a.store){
         btn.innerHTML = `${esc(a.name)} を App Store で見る ${arrow}`; btn.href = a.store; btn.className = "btn";
