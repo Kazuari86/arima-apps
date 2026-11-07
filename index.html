@@ -213,7 +213,7 @@
         <p class="desc" id="hDesc"></p>
         <div class="cta">
           <a class="btn" id="hBtn" href="#" target="_blank" rel="noopener"></a>
-          <a class="more" id="hMore" href="#detail">くわしく見る</a>
+          <a class="more" id="hMore" href="#apps" hidden>紹介ページを見る →</a>
           <span class="tag" id="hTag"></span>
         </div>
       </div>
@@ -238,9 +238,6 @@
     <p class="hint">アプリを押すと、上の言葉と画面、下のくわしい紹介が切り替わります</p>
   </section>
 
-  <section id="detail" aria-label="選んだアプリのくわしい紹介">
-    <div class="panel fade" id="panel" aria-live="polite"></div>
-  </section>
 
   <section class="band" id="story" aria-labelledby="storyH">
     <div class="two">
@@ -307,7 +304,6 @@
     const b = document.createElement("button");
     b.type = "button"; b.className = "card" + (a.status === "coming" ? " coming" : "");
     b.setAttribute("aria-pressed", "false");
-    b.setAttribute("aria-controls", "panel");
     b.innerHTML =
       `<span class="ic">${iconHtml(a, "")}</span>` +
       `<span class="nm">${esc(a.name)}</span>` +
@@ -358,15 +354,16 @@
     // 上（ヒーロー）
     const box = $("hBox"), panel = $("panel"), ph = $("hPhone");
     const first = !byUser;
-    if (!first){ box.classList.add("out"); panel.classList.add("out"); ph.classList.add("swap"); }
+    if (!first){ box.classList.add("out"); if (panel) panel.classList.add("out"); ph.classList.add("swap"); }
     setTimeout(() => {
       $("hNow").innerHTML = `${iconHtml(a, "")}<span><b>${esc(a.name)}</b>　${esc(a.short || a.category || "")}</span>`;
       $("hLine").textContent = a.line || "";
       $("hDesc").textContent = a.desc || "";
       $("hTag").textContent  = a.tag  || "";
       const more = $("hMore");
-      more.href = a.page ? a.page : "#detail";
-      more.textContent = a.page ? "紹介ページを見る →" : "くわしく見る";
+      // くわしい紹介は各アプリの紹介ページ（apps/<id>/）。無いアプリはリンクを出さない
+      more.hidden = !a.page;
+      if (a.page) { more.href = a.page; more.textContent = "紹介ページを見る →"; }
       const btn = $("hBtn");
       if (a.status === "released" && a.store){
         btn.innerHTML = `${esc(a.name)} を App Store で見る ${arrow}`; btn.href = a.store; btn.className = "btn";
@@ -377,8 +374,8 @@
       }
       ph.className = "phone" + (a.shot ? "" : " empty");
       ph.innerHTML = a.shot ? `<img src="${esc(a.shot)}" alt="${esc(a.name)} の画面" width="442" height="960">` : "準備中";
-      panel.innerHTML = panelHtml(a);
-      box.classList.remove("out"); panel.classList.remove("out");
+      if (panel) { panel.innerHTML = panelHtml(a); panel.classList.remove("out"); }
+      box.classList.remove("out");
     }, first ? 0 : 220);
 
     icons.querySelectorAll(".card").forEach((el, k) => el.setAttribute("aria-pressed", k === i ? "true" : "false"));

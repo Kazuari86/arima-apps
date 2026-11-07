@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>みなも — 釣りの記録と行きどきのお知らせ｜午前三時の発明所</title>
+<meta name="description" content="渓流も海も、記録と分析が行きどきを教えてくれる釣りアプリ。ボタンを押すだけで時間・ルート・潮・天気が残り、条件がそろう日を通知でお知らせ。買い切り・30日間すべて試せます。">
+<link rel="canonical" href="https://kazuari86.github.io/arima-apps/apps/minamo/">
+<meta name="theme-color" content="#F3F7F8">
+<meta property="og:site_name" content="午前三時の発明所">
+<meta property="og:title" content="みなも — 潮見表を見なくても、行きどきを知らせてくれる。">
+<meta property="og:description" content="渓流も海も、記録と分析が行きどきを教えてくれる釣りアプリ。ボタンを押すだけで時間・ルート・潮・天気が残り、条件がそろう日を通知でお知らせ。買い切り・30日間すべて試せます。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kazuari86.github.io/arima-apps/apps/minamo/">
+<meta property="og:image" content="https://kazuari86.github.io/arima-apps/og.png">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<!-- このファイルは APM の scripts/build-app-pages.mjs が apps/minamo/page.json から作る。直接直さない -->
+<style>
+  :root{
+    --bg:#F3F7F8; --paper:#FFFDF9; --ink:#2B241F; --muted:#6A5E54; --line:#D8E3E7;
+    --or:#E4572E; --or-d:#B83E1A; --or-l:#D9ECF2; --sun:#F6B53F;
+    --navy:#12384F;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  img{display:block;max-width:100%;height:auto}
+  svg{display:block}
+  :focus-visible{outline:3px solid var(--or);outline-offset:3px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(16px,5vw,56px)}
+  .mg{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif}
+  h1,h2,h3{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif;letter-spacing:.01em}
+
+  /* 上の帯 */
+  .top{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px;font-size:13px}
+  .top a{text-decoration:none;color:var(--muted)}
+  .top a:hover{color:var(--ink)}
+  .crumb{display:flex;align-items:center;gap:8px}
+  .crumb svg{width:18px;height:18px}
+
+  /* ボタン */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:700;text-decoration:none;font-size:15px;transition:transform .15s, box-shadow .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-store{background:linear-gradient(180deg,#2E2E33,#111114);color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.18)}
+  .btn-store svg{width:20px;height:20px;fill:#fff}
+  .btn-ghost{background:var(--paper);border:1.5px solid var(--line);color:var(--ink)}
+
+  /* ヒーロー */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;padding:12px 0 40px}
+  .app-id{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .app-id img{width:64px;height:64px;border-radius:22%;box-shadow:0 6px 16px rgba(120,60,20,.18)}
+  .app-id b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:26px;font-weight:900;line-height:1.2}
+  .app-id span{font-size:13px;color:var(--muted)}
+  .nb{display:inline-block}
+  .hero h1{margin:0 0 16px;font-size:clamp(26px,3.7vw,46px);line-height:1.35;font-weight:900}
+  .hero h1 em{font-style:normal;color:var(--or-d);background:linear-gradient(transparent 62%,var(--or-l) 62%)}
+  .hero p.sub{margin:0 0 26px;font-size:clamp(15px,1.6vw,17px);color:var(--muted);max-width:30em}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .badges span{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line);color:var(--muted)}
+  .hero-art{position:relative}
+  .hero-art .scene{width:86%;height:auto;border-radius:28px;box-shadow:0 14px 34px rgba(90,45,15,.14)}
+  .hero-art .phone{position:absolute;right:0;bottom:-8%;width:27%;border-radius:18px;box-shadow:0 18px 40px rgba(60,30,10,.28);border:5px solid #1d1d1f;background:#1d1d1f}
+  .float{animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* 見出し */
+  section{padding:64px 0}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--or-d);margin-bottom:6px}
+  h2{margin:0 0 12px;font-size:clamp(24px,3.4vw,36px);line-height:1.4;font-weight:900}
+  .h2sub{margin:0 0 32px;color:var(--muted);max-width:36em}
+  .center{text-align:center}
+  .center .h2sub{margin-left:auto;margin-right:auto}
+
+  /* 困りごと */
+  .worry{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .wcard{background:var(--bg);border-radius:24px;padding:20px 20px 22px;text-align:center}
+  .wcard img{width:100%;height:auto;margin:0 0 12px;border-radius:18px}
+  .wcard b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:18px;margin-bottom:4px}
+  .wcard p{margin:0;font-size:14px;color:var(--muted)}
+  .arrow-down{display:flex;justify-content:center;margin:34px 0 0}
+  .arrow-down div{display:flex;flex-direction:column;align-items:center;gap:6px;font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:clamp(18px,2.4vw,24px)}
+  .arrow-down svg{width:30px;height:30px}
+
+  /* 3つのこと */
+  .step{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,64px);align-items:center;margin-bottom:72px}
+  .step:last-child{margin-bottom:0}
+  .step.rev .step-art{order:2}
+  .step-art{position:relative;display:flex;justify-content:center}
+  .step-art .blob{position:absolute;inset:8% 4%;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:var(--or-l);z-index:0}
+  .step-art img{position:relative;z-index:1;width:min(270px,62%);border-radius:24px;box-shadow:0 18px 40px rgba(90,45,15,.22)}
+  .step-art .deco{position:absolute;z-index:2;width:clamp(76px,26%,120px);height:auto;border-radius:50%;border:4px solid #fff;box-shadow:0 8px 20px rgba(90,45,15,.18)}
+  .num{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:15px;color:#fff;background:var(--or);display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;margin-bottom:12px;box-shadow:0 4px 10px rgba(224,122,54,.35)}
+  .step h3{margin:0 0 12px;font-size:clamp(22px,2.8vw,30px);line-height:1.45;font-weight:900}
+  .step p{margin:0 0 14px;color:var(--muted)}
+  .step ul{margin:0;padding:0;list-style:none}
+  .step li{position:relative;padding-left:28px;margin:8px 0;font-size:15px}
+  .step li::before{content:"";position:absolute;left:0;top:.5em;width:16px;height:16px;border-radius:50%;background:var(--or) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+
+  /* 1日の流れ */
+  .day{background:linear-gradient(180deg,#D9ECF2 0%,#FFFDF8 55%,#D9ECF2 100%);border-radius:36px;padding:clamp(28px,5vw,56px);position:relative;overflow:hidden}
+  .tl{position:relative;display:grid;gap:22px;max-width:760px;margin:0 auto}
+  .tl::before{content:"";position:absolute;left:31px;top:20px;bottom:20px;width:3px;background:rgba(43,36,31,.12);border-radius:3px}
+  .ti{display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:start;position:relative}
+  .ti .ic{width:64px;height:64px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(60,30,10,.12)}
+  .ti .ic img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .ti .ic{overflow:hidden}
+  .ti .ic img{transform:scale(1.32)}
+  .ti .card{background:rgba(255,253,248,.92);border-radius:20px;padding:16px 20px}
+  .ti .t{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;color:var(--or-d);font-size:14px}
+  .ti b{display:block;font-size:17px;margin:2px 0}
+  .ti p{margin:0;font-size:14px;color:var(--muted)}
+  .ti.night .card{background:rgba(36,48,94,.9);color:#fff}
+  .ti.night .t{color:var(--sun)}
+  .ti.night p{color:#D4D9EE}
+  .day-shots{display:flex;justify-content:center;gap:16px;margin-top:34px;flex-wrap:wrap}
+  .day-shots img{width:min(190px,42%);border-radius:18px;box-shadow:0 14px 30px rgba(20,20,40,.3)}
+
+  /* つながり方 */
+  .connect{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,56px);align-items:center}
+  .connect img.conn{width:100%;height:auto;border-radius:28px}
+  .pill{display:inline-block;font-size:13px;font-weight:700;background:var(--or-l);color:var(--or-d);border-radius:999px;padding:3px 12px;margin-right:6px}
+
+  /* ほかにも */
+  .more{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .mi{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:flex-start}
+  .mi svg{width:44px;height:44px;flex:none}
+  .mi b{display:block;font-size:15px;margin-bottom:2px}
+  .mi p{margin:0;font-size:13px;color:var(--muted);line-height:1.7}
+  .gallery{display:flex;gap:16px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+  .gallery figure{margin:0;width:min(200px,44%);text-align:center}
+  .gallery img{border-radius:18px;box-shadow:0 12px 26px rgba(90,45,15,.18)}
+  .gallery figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+
+  /* 料金 */
+  .price{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .pcard{background:var(--paper);border:1.5px solid var(--line);border-radius:26px;padding:26px}
+  .pcard.pre{border-color:var(--or);box-shadow:0 10px 30px rgba(224,122,54,.14)}
+  .pcard h3{margin:0 0 4px;font-size:21px}
+  .pcard .yen{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:28px;margin:4px 0 2px}
+  .pcard .yen small{font-size:14px;font-weight:700;color:var(--muted)}
+  .pcard .note{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .pcard ul{margin:0;padding-left:1.2em;font-size:14px}
+  .pcard li{margin:4px 0}
+  .pfine{margin-top:18px;font-size:13px;color:var(--muted);background:var(--paper);border-radius:18px;padding:16px 20px;border:1px dashed var(--line)}
+  .pfine p{margin:4px 0}
+
+  /* 安心 */
+  .safe{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .sc{text-align:center;padding:10px}
+  .sc svg{width:96px;height:96px;margin:0 auto 10px}
+  .sc b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:18px}
+  .sc p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+
+  /* 最後の呼びかけ */
+  .last{background:var(--navy);color:#fff;border-radius:36px;padding:clamp(32px,6vw,64px);display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,48px);align-items:center;position:relative;overflow:hidden}
+  .last h2{color:#fff}
+  .last p{color:#D4D9EE;margin:0 0 22px}
+  .last img.moon{width:clamp(150px,20vw,220px);height:auto;border-radius:28px}
+  .last .btn-store{background:#fff;color:#111}
+  .last .btn-store svg{fill:#111}
+  .last .btn-ghost{background:transparent;border-color:rgba(255,255,255,.35);color:#fff}
+
+  footer{padding:40px 0 56px;font-size:13px;color:var(--muted)}
+  .flinks{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:12px}
+  .flinks a{text-decoration:none}
+  .flinks a:hover{text-decoration:underline}
+
+  /* 出てくる動き */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+  .rv.on{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    .float{animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* スマホ */
+  @media (max-width:820px){
+    section{padding:48px 0}
+    .hero{display:flex;flex-direction:column;align-items:stretch;padding-bottom:40px}
+    .hero>div:first-child{display:contents}
+    .app-id{order:1}.hero-art{order:2;max-width:420px;margin:0 auto 34px;width:100%}.hero h1{order:3}.hero p.sub{order:4}.cta{order:5}.badges{order:6}
+    .cta .btn{width:100%}
+    .wgrid{grid-template-columns:1fr}
+    .wcard{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center;text-align:left;padding:14px}
+    .wcard img{margin:0;border-radius:14px}
+    .step,.connect,.price{grid-template-columns:1fr}
+    .step{margin-bottom:56px}
+    .step.rev .step-art{order:0}
+    .step-art img{width:min(230px,64%)}
+    .more{grid-template-columns:1fr}
+    .safe{grid-template-columns:1fr}
+    .sc{display:grid;grid-template-columns:72px 1fr;gap:14px;text-align:left;align-items:center;padding:0}
+    .sc svg{width:72px;height:72px;margin:0}
+    .last{grid-template-columns:1fr;text-align:center}
+    .last img.moon{margin:0 auto}
+    .last .cta{justify-content:center}
+    .tl::before{left:25px}
+    .ti{grid-template-columns:52px 1fr;gap:12px}
+    .ti .ic{width:52px;height:52px}
+    
+  }
+
+  .gallery figure{width:min(200px,44%)}
+  .notice{margin-top:18px;font-size:13px;color:var(--muted)}
+  .sc .em{width:96px;height:96px;margin:0 auto 10px;border-radius:50%;background:var(--or-l);display:flex;align-items:center;justify-content:center;font-size:42px}
+  .mi .dot{width:44px;height:44px;flex:none;border-radius:50%;background:var(--or-l);display:flex;align-items:center;justify-content:center;font-size:22px}
+  @media (max-width:820px){ .sc .em{width:72px;height:72px;font-size:32px;margin:0} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="apple" viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.5.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-4.1zM13.9 5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></symbol>
+</svg>
+
+<div class="wrap">
+  <div class="top">
+    <a class="crumb" href="../../?app=minamo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      午前三時の発明所
+    </a>
+    <a href="../../catchnote/">サポート・よくある質問</a>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="app-id">
+        <img src="../../icons/minamo.jpg" alt="みなものアイコン" width="64" height="64">
+        <div><b>みなも</b><span>釣りの記録と、行きどきのお知らせ</span></div>
+      </div>
+      <h1><span class="nb">潮見表を見なくても、</span><br><span class="nb"><em>行きどきを</em></span><br><span class="nb"><em>知らせてくれる。</em></span></h1>
+      <p class="sub">まん中のボタンを押すだけで、時間・歩いたルート・潮・天気が自動で残る。記録がたまるほど、自分がどの潮・どの時間・どのルアーで釣っているかが見えてきます。</p>
+      <div class="cta"><a class="btn btn-store" href="https://apps.apple.com/jp/app/id6803208983" target="_blank" rel="noopener"><svg><use href="#apple"/></svg>App Store で見る</a><a class="btn btn-ghost" href="#how">どんなアプリ？</a></div>
+      <div class="badges"><span>iPhone</span><span>買い切り</span><span>30日間すべて試せる</span><span>登録不要</span></div>
+    </div>
+    <div class="hero-art">
+      <img src="img/hero.jpg" alt="朝マヅメの海辺で釣りをする人と、スマホに記録が残っていく絵" class="scene" width="1200" height="800">
+      <img class="phone float" src="../../shots/minamo.jpg" alt="みなもの画面" width="480" height="1043">
+    </div>
+  </header>
+</div>
+
+<section class="worry">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">こんなこと、ありませんか？</span>
+      <h2>記録したい。<br>でも、釣り場ではそれどころじゃない</h2>
+      <p class="h2sub">時合いの連発中に、メモなんて打っていられない。帰ってからでは、もう細かいことは思い出せない。</p>
+    </div>
+    <div class="wgrid">
+      <div class="wcard rv">
+        <img src="img/worry-1.jpg" alt="連続で魚が釣れて、記録する手が追いつかない絵" width="720" height="540" loading="lazy">
+        <div><b>時合いに、記録が追いつかない</b><p>釣れている間は手が離せず、つけ忘れたまま帰ってしまう。</p></div>
+      </div>
+      <div class="wcard rv">
+        <img src="img/worry-2.jpg" alt="去年の釣りを思い出そうと首をかしげる絵" width="720" height="540" loading="lazy">
+        <div><b>「去年の今ごろ、何で釣ったっけ」</b><p>同じ場所に何年も通っていても、去年の同じ時期の記録が見つからない。</p></div>
+      </div>
+      <div class="wcard rv">
+        <img src="img/worry-3.jpg" alt="たくさんのルアーを前に迷っている絵" width="720" height="540" loading="lazy">
+        <div><b>ルアーが増えすぎた</b><p>どれが本当に釣れているのか、なんとなくの「信頼ルアー」しか分からない。</p></div>
+      </div>
+    </div>
+    <div class="arrow-down rv"><div>
+      <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 4 V24 M6 16 l9 9 l9 -9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--or)"/></svg>
+      みなもなら、ボタンひとつで残る
+    </div></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">みなもでできること</span>
+      <h2>記録は、ボタンひとつ。<br>答えは、記録の中に。</h2>
+    </div>
+    
+    <div class="step rv">
+      <div class="step-art">
+        <div class="blob" style="background:var(--or-l)"></div>
+        <img src="../../shots/minamo-1.jpg" alt="釣れた1匹を写真で記録する画面" width="480" height="1043" loading="lazy">
+        <img src="img/c-1.jpg" alt="" class="deco" style="right:4%;top:14%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">01</span>
+        <h3>帰ってから、<br>書かなくていい</h3>
+        <p>ホームの丸いボタンを押すと釣行がはじまり、もう一度押すと終わります。釣り場で打ち込むのは、釣れたときの写真1枚だけ。</p>
+        <ul><li>時間・歩いたルート・潮・天気が自動で残る</li><li>魚種・サイズ・時刻は、帰りの車でも翌日でも直せる</li><li>2匹目からは、前の1匹のルアーやタックルを最初から入れておく</li></ul>
+      </div>
+    </div>
+    <div class="step rev rv">
+      <div class="step-art">
+        <div class="blob" style="background:#E8ECF6"></div>
+        <img src="../../shots/minamo-2.jpg" alt="行きどきの条件と、条件がそろう日の一覧" width="480" height="1043" loading="lazy">
+        <img src="img/c-2.jpg" alt="" class="deco" style="left:4%;bottom:12%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">02</span>
+        <h3>行きどきを、<br>通知でお知らせ</h3>
+        <p>お気に入りの釣り場に「大潮で、満潮と朝マヅメが重なって、風が5m以下」のような条件を決めておくと、そろう時間を探して知らせます（みなもプレミアム）。</p>
+        <ul><li>潮とマヅメだけの条件なら3週間先まで探す</li><li>知らせるのは3週間前〜2時間前から、いくつでも</li><li>ホーム画面とロック画面のウィジェットに、次の行きどき（iOS 17 以上）</li></ul>
+      </div>
+    </div>
+    <div class="step rv">
+      <div class="step-art">
+        <div class="blob" style="background:#FBEFC0"></div>
+        <img src="../../shots/minamo-3.jpg" alt="渓流の釣り場から、ダムや遊漁券の情報を開く画面" width="480" height="1043" loading="lazy">
+        <img src="img/c-3.jpg" alt="" class="deco" style="right:4%;bottom:14%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">03</span>
+        <h3>渓流へ行く前の確認が、<br>ボタン1つ</h3>
+        <p>釣り場に「いつも見るダム」を登録すると、放流量のページがボタン1つで開きます。</p>
+        <ul><li>全国約1,470基から、同じ川のダムを先に出す</li><li>県の道路・林道の通行規制のページも開ける</li><li>その川の漁協の候補（全国約780）と、遊漁券を買える店・サービス</li></ul>
+      </div>
+    </div>
+    <div class="step rev rv">
+      <div class="step-art">
+        <div class="blob" style="background:#E6F1E4"></div>
+        <img src="04-pattern.jpg" alt="時間帯や潮まわりごとの釣果の傾向を示す分析画面" width="480" height="1043" loading="lazy">
+        <img src="img/c-1.jpg" alt="" class="deco" style="left:4%;top:14%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">04</span>
+        <h3>自分の勝ちパターンが、<br>見えてくる</h3>
+        <p>釣れた時間帯・潮まわり・季節を、海・河口・川・池・渓流・ダムごとにグラフに。何が読み取れて次にどうすればよいかを、言葉で添えます。</p>
+        <ul><li>シーバス・クロダイ・ヤマメなど13魚種は、その魚のベストパターンも</li><li>ルアーを箱ごとに登録すると、使った回数と釣れた数から実績が出る</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="day rv">
+      <div class="center">
+        <span class="kicker">たとえば、こんな使い方</span>
+        <h2>行く前も、釣り場でも、<br>帰ってからも</h2>
+      </div>
+      <div class="tl">
+        <div class="ti">
+          <div class="ic"><img src="img/d-1.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">行く前</span><b>潮と天気を、ひと目で</b><p>行きたい日を選ぶと、満潮・干潮の時刻と天気をカレンダーで確認できます（天気は10日先まで）。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-2.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">釣り場で</span><b>ボタンを押して、写真を1枚</b><p>釣行がはじまれば、潮も場所も時刻も自動で残ります。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-3.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">帰り道で</span><b>魚種とサイズは、あとから</b><p>帰りの車でも翌日でも、ゆっくり直せます。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-4.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">週末の前</span><b>「去年の今ごろ」が届く</b><p>去年の同じ週に釣れていたら、金曜18時にお知らせします。設定から止められます。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">ほかにも</span>
+      <h2>釣りが続くほど、<span class="nb">役に立つ</span></h2>
+    </div>
+    <div class="more">
+      <div class="mi rv"><div class="dot" aria-hidden="true">🗺</div><div><b>自分だけの釣果マップ</b><p>どこで何が釣れたかを、地図で見返せます。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">🏆</div><div><b>自己ベストと今年のまとめ</b><p>魚種ごとの自己ベスト一覧と、今年の釣りまとめ。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">🎣</div><div><b>ルアー箱・タックル箱</b><p>使った回数と釣れた数から実績が出て、在庫の減りもわかります。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">📅</div><div><b>解禁日・禁漁日</b><p>「解禁まであと12日」と出て、解禁の前にお知らせ（お知らせはみなもプレミアム）。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">📖</div><div><b>釣り場のルール案内</b><p>海・河口・川・池・渓流・ダムごとの一般的な考え方をまとめています。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">💾</div><div><b>書き出し（バックアップ）</b><p>機種変更や万一に備えて、設定からデータを書き出せます。</p></div></div>
+    </div>
+    <div class="gallery rv">
+      <figure><img src="06-lure.jpg" alt="ルアーごとの使用回数と釣果の画面" width="480" height="1043" loading="lazy"><figcaption>釣れているルアーが数字で</figcaption></figure>
+      <figure><img src="07-tide.jpg" alt="潮と天気をカレンダーで見る画面" width="480" height="1043" loading="lazy"><figcaption>行く前に潮と天気</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">料金</span>
+      <h2>買い切り。<span class="nb">月額はありません</span></h2>
+      <p class="h2sub">ダウンロードしてから30日間は、すべての機能をそのまま試せます。お試しが終わっても自動で課金されることはなく、記録がなくなることもありません。</p>
+    </div>
+    <div class="price">
+      <div class="pcard rv">
+        <h3>無料でできること</h3>
+        <div class="yen">0<small> 円</small></div>
+        <p class="note">記録の件数に上限はありません</p>
+        <ul><li>釣行・釣果・写真・日記の記録</li><li>自分だけの釣果マップ／潮汐と天気の検索</li><li>分析（直近3ヶ月ぶんの記録から）</li><li>魚種ごとの自己ベストと、今年の釣りまとめ</li><li>「去年の今ごろ」のお知らせ</li><li>渓流の情報（ダム・通行規制・遊漁券の買い先）と放流量の記録</li></ul>
+      </div>
+      <div class="pcard pre rv">
+        <h3>購入すると開くもの</h3>
+        <div class="yen">買い切り<small>（一度だけ）</small></div>
+        <p class="note">一度お支払いいただければ、そのあと料金はかかりません</p>
+        <ul><li>行きどきのお知らせと、ホーム画面のウィジェット</li><li>渓流の解禁日・禁漁日のお知らせ</li><li>すべての期間の分析（去年・一昨年の同じ時期と比べられる）</li><li>13魚種それぞれの攻略を、全期間の記録から</li><li>マップの濃淡表示と、表示中の範囲だけの集計</li><li>ルアー箱・タックル箱・マイポイントの数の制限がなくなる</li></ul>
+      </div>
+    </div>
+    <div class="pfine rv"><p>・潮汐は最寄りの観測港の計算値、天気は Apple の天気の予報で、どちらも参考値です。行きどきのお知らせは釣れることを保証するものではありません。</p><p>・引き上げのタイミングなど安全に関わる判断は、気象庁の公式情報と現地の状況を必ずご確認ください。</p></div>
+  </div>
+</section>
+
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="safe">
+      <div class="sc rv"><div class="em" aria-hidden="true">🙅</div><div><b>登録・ログイン不要</b><p>アカウント登録もログインも要りません。</p></div></div>
+      <div class="sc rv"><div class="em" aria-hidden="true">📱</div><div><b>記録は、端末の中だけ</b><p>釣果・写真・GPSの記録は端末の中だけに保存され、外部に送信されません。</p></div></div>
+      <div class="sc rv"><div class="em" aria-hidden="true">💴</div><div><b>月額なし</b><p>買い切りなので、一度お支払いいただければ料金はかかりません。</p></div></div>
+    </div>
+    
+  </div>
+</section>
+
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="last rv">
+      <img src="img/night.jpg" alt="" class="moon" width="600" height="600" loading="lazy">
+      <div>
+        <h2>次の行きどきは、みなもが知っている。</h2>
+        <p>30日間は、すべての機能をそのまま試せます。まずは次の釣行で、まん中のボタンを押すところから。</p>
+        <div class="cta"><a class="btn btn-store" href="https://apps.apple.com/jp/app/id6803208983" target="_blank" rel="noopener"><svg><use href="#apple"/></svg>App Store で見る</a><a class="btn btn-ghost" href="../../catchnote/">よくある質問</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="../../?app=minamo">← 午前三時の発明所 トップ</a>
+      <a href="../../catchnote/">サポート</a>
+      <a href="../../catchnote/terms.html">利用規約</a>
+      <a href="../../catchnote/privacy-policy.html">プライバシーポリシー</a>
+    </div>
+    <div style="margin-top:6px">© 午前三時の発明所</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.rv');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('on')});return;}
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>

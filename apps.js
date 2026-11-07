@@ -98,7 +98,8 @@ window.APPS = [
     benefit: "撮った写真はこのアプリの中だけに保存され、「写真」アプリには勝手に入りません。iPhone のカメラはこれまでどおり、家族の写真用に。",
     price: "無料で使えます（写真の枚数に上限なし・案件ごとの箱は3つまで）。プレミアム（1回だけのお支払い）で、箱がいくつでも分かれます。",
     store: "https://apps.apple.com/jp/app/id6807511824",
-    support: "jobshotbox/"
+    support: "jobshotbox/",
+    page: "apps/karioki/"
   },
   {
     id: "minamo",
@@ -125,7 +126,8 @@ window.APPS = [
     benefit: "記録がたまるほど、自分がどの潮・どの時間・どのルアーで釣っているかが、グラフと言葉で見えてきます。",
     price: "買い切り（月額なし）。ダウンロードから30日間は、すべての機能をそのまま試せます。お試しが終わっても自動で課金されることはなく、記録もなくなりません。",
     store: "https://apps.apple.com/jp/app/id6803208983",
-    support: "catchnote/"
+    support: "catchnote/",
+    page: "apps/minamo/"
   },
   {
     id: "kokedama",
@@ -152,7 +154,8 @@ window.APPS = [
     benefit: "スタミナも、時限イベントも、ランキングも、広告もありません。何日か開かなくても、何も減りません。",
     price: "はじめの14日間は、すべての機能を無料でお試しできます（自動でお金がかかることはありません）。続けてすべての機能を使うには買い切り（480円・月額なし）。",
     store: "https://apps.apple.com/jp/app/id6820950382",
-    support: "kokedama/"
+    support: "kokedama/",
+    page: "apps/kokedama/"
   },
   {
     id: "kyujitsu",
@@ -179,7 +182,8 @@ window.APPS = [
     benefit: "自分の実感をもとに、次の休みの過ごし方を選び直せます。去年の今ごろの休みも、日記としてふり返れます。",
     price: "記録はすべて無料で、件数の制限なく見られます。くわしい分析や年のまとめなどの有料の機能は、買い切り（480円・一度のお支払い）でひらけます。",
     store: "https://apps.apple.com/jp/app/id6825105470",
-    support: "holidayhindsight/"
+    support: "holidayhindsight/",
+    page: "apps/kyujitsu/"
   },
   {
     id: "kesa",
@@ -206,7 +210,8 @@ window.APPS = [
     benefit: "官公庁・公的機関・学会・博物館などが出している内容だけを、出典つきで。16ジャンル・1120話を同梱しています。",
     price: "無料で使えます（朝に1枚・ジャンル3つ・手帳15枚まで）。買い切り版（一度のお支払い・月額なし）で、朝に3枚・16ジャンルすべて・手帳が無制限に。",
     store: "https://apps.apple.com/jp/app/id6806539228",
-    support: "talkcard/"
+    support: "talkcard/",
+    page: "apps/kesa/"
   },
   {
     id: "shiftsleep",

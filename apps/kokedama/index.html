@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>こけだま日和 — 苔玉をのんびり育てる放置ゲーム｜午前三時の発明所</title>
+<meta name="description" content="ふわふわの苔玉を、縁側で1体ずつ育てる放置ゲーム。なでて、霧吹きをして、着せ替えて、撮る。毎朝の占いもお知らせとウィジェットで届きます。スタミナも時限イベントも広告もなし。14日間すべて試せる買い切り（480円）。">
+<link rel="canonical" href="https://kazuari86.github.io/arima-apps/apps/kokedama/">
+<meta name="theme-color" content="#F6F8EE">
+<meta property="og:site_name" content="午前三時の発明所">
+<meta property="og:title" content="こけだま日和 — 急がせない。減らない。縁側で苔玉と、のんびり。">
+<meta property="og:description" content="ふわふわの苔玉を、縁側で1体ずつ育てる放置ゲーム。なでて、霧吹きをして、着せ替えて、撮る。毎朝の占いもお知らせとウィジェットで届きます。スタミナも時限イベントも広告もなし。14日間すべて試せる買い切り（480円）。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kazuari86.github.io/arima-apps/apps/kokedama/">
+<meta property="og:image" content="https://kazuari86.github.io/arima-apps/og.png">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<!-- このファイルは APM の scripts/build-app-pages.mjs が apps/kokedama/page.json から作る。直接直さない -->
+<style>
+  :root{
+    --bg:#F6F8EE; --paper:#FFFDF9; --ink:#2B241F; --muted:#6A5E54; --line:#DDE5CF;
+    --or:#5C7A4B; --or-d:#43603A; --or-l:#DCE8CF; --sun:#F6B53F;
+    --navy:#2E3B2A;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  img{display:block;max-width:100%;height:auto}
+  svg{display:block}
+  :focus-visible{outline:3px solid var(--or);outline-offset:3px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(16px,5vw,56px)}
+  .mg{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif}
+  h1,h2,h3{font-family:"Zen Maru Gothic","Noto Sans JP",sans-serif;letter-spacing:.01em}
+
+  /* 上の帯 */
+  .top{display:flex;justify-content:space-between;align-items:center;padding:16px 0;gap:12px;font-size:13px}
+  .top a{text-decoration:none;color:var(--muted)}
+  .top a:hover{color:var(--ink)}
+  .crumb{display:flex;align-items:center;gap:8px}
+  .crumb svg{width:18px;height:18px}
+
+  /* ボタン */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:700;text-decoration:none;font-size:15px;transition:transform .15s, box-shadow .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-store{background:linear-gradient(180deg,#2E2E33,#111114);color:#fff;box-shadow:0 6px 16px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.18)}
+  .btn-store svg{width:20px;height:20px;fill:#fff}
+  .btn-ghost{background:var(--paper);border:1.5px solid var(--line);color:var(--ink)}
+
+  /* ヒーロー */
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:center;padding:12px 0 40px}
+  .app-id{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+  .app-id img{width:64px;height:64px;border-radius:22%;box-shadow:0 6px 16px rgba(120,60,20,.18)}
+  .app-id b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:26px;font-weight:900;line-height:1.2}
+  .app-id span{font-size:13px;color:var(--muted)}
+  .nb{display:inline-block}
+  .hero h1{margin:0 0 16px;font-size:clamp(26px,3.7vw,46px);line-height:1.35;font-weight:900}
+  .hero h1 em{font-style:normal;color:var(--or-d);background:linear-gradient(transparent 62%,var(--or-l) 62%)}
+  .hero p.sub{margin:0 0 26px;font-size:clamp(15px,1.6vw,17px);color:var(--muted);max-width:30em}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .badges span{font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px;background:var(--paper);border:1px solid var(--line);color:var(--muted)}
+  .hero-art{position:relative}
+  .hero-art .scene{width:86%;height:auto;border-radius:28px;box-shadow:0 14px 34px rgba(90,45,15,.14)}
+  .hero-art .phone{position:absolute;right:0;bottom:-8%;width:27%;border-radius:18px;box-shadow:0 18px 40px rgba(60,30,10,.28);border:5px solid #1d1d1f;background:#1d1d1f}
+  .float{animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* 見出し */
+  section{padding:64px 0}
+  .kicker{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--or-d);margin-bottom:6px}
+  h2{margin:0 0 12px;font-size:clamp(24px,3.4vw,36px);line-height:1.4;font-weight:900}
+  .h2sub{margin:0 0 32px;color:var(--muted);max-width:36em}
+  .center{text-align:center}
+  .center .h2sub{margin-left:auto;margin-right:auto}
+
+  /* 困りごと */
+  .worry{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .wgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .wcard{background:var(--bg);border-radius:24px;padding:20px 20px 22px;text-align:center}
+  .wcard img{width:100%;height:auto;margin:0 0 12px;border-radius:18px}
+  .wcard b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:18px;margin-bottom:4px}
+  .wcard p{margin:0;font-size:14px;color:var(--muted)}
+  .arrow-down{display:flex;justify-content:center;margin:34px 0 0}
+  .arrow-down div{display:flex;flex-direction:column;align-items:center;gap:6px;font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:clamp(18px,2.4vw,24px)}
+  .arrow-down svg{width:30px;height:30px}
+
+  /* 3つのこと */
+  .step{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,64px);align-items:center;margin-bottom:72px}
+  .step:last-child{margin-bottom:0}
+  .step.rev .step-art{order:2}
+  .step-art{position:relative;display:flex;justify-content:center}
+  .step-art .blob{position:absolute;inset:8% 4%;border-radius:46% 54% 50% 50%/55% 45% 55% 45%;background:var(--or-l);z-index:0}
+  .step-art img{position:relative;z-index:1;width:min(270px,62%);border-radius:24px;box-shadow:0 18px 40px rgba(90,45,15,.22)}
+  .step-art .deco{position:absolute;z-index:2;width:clamp(76px,26%,120px);height:auto;border-radius:50%;border:4px solid #fff;box-shadow:0 8px 20px rgba(90,45,15,.18)}
+  .num{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:15px;color:#fff;background:var(--or);display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;margin-bottom:12px;box-shadow:0 4px 10px rgba(224,122,54,.35)}
+  .step h3{margin:0 0 12px;font-size:clamp(22px,2.8vw,30px);line-height:1.45;font-weight:900}
+  .step p{margin:0 0 14px;color:var(--muted)}
+  .step ul{margin:0;padding:0;list-style:none}
+  .step li{position:relative;padding-left:28px;margin:8px 0;font-size:15px}
+  .step li::before{content:"";position:absolute;left:0;top:.5em;width:16px;height:16px;border-radius:50%;background:var(--or) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/100% no-repeat}
+
+  /* 1日の流れ */
+  .day{background:linear-gradient(180deg,#DCE8CF 0%,#FFFDF8 55%,#DCE8CF 100%);border-radius:36px;padding:clamp(28px,5vw,56px);position:relative;overflow:hidden}
+  .tl{position:relative;display:grid;gap:22px;max-width:760px;margin:0 auto}
+  .tl::before{content:"";position:absolute;left:31px;top:20px;bottom:20px;width:3px;background:rgba(43,36,31,.12);border-radius:3px}
+  .ti{display:grid;grid-template-columns:64px 1fr;gap:18px;align-items:start;position:relative}
+  .ti .ic{width:64px;height:64px;border-radius:50%;background:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px rgba(60,30,10,.12)}
+  .ti .ic img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .ti .ic{overflow:hidden}
+  .ti .ic img{transform:scale(1.32)}
+  .ti .card{background:rgba(255,253,248,.92);border-radius:20px;padding:16px 20px}
+  .ti .t{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;color:var(--or-d);font-size:14px}
+  .ti b{display:block;font-size:17px;margin:2px 0}
+  .ti p{margin:0;font-size:14px;color:var(--muted)}
+  .ti.night .card{background:rgba(36,48,94,.9);color:#fff}
+  .ti.night .t{color:var(--sun)}
+  .ti.night p{color:#D4D9EE}
+  .day-shots{display:flex;justify-content:center;gap:16px;margin-top:34px;flex-wrap:wrap}
+  .day-shots img{width:min(190px,42%);border-radius:18px;box-shadow:0 14px 30px rgba(20,20,40,.3)}
+
+  /* つながり方 */
+  .connect{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5vw,56px);align-items:center}
+  .connect img.conn{width:100%;height:auto;border-radius:28px}
+  .pill{display:inline-block;font-size:13px;font-weight:700;background:var(--or-l);color:var(--or-d);border-radius:999px;padding:3px 12px;margin-right:6px}
+
+  /* ほかにも */
+  .more{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .mi{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px;display:flex;gap:14px;align-items:flex-start}
+  .mi svg{width:44px;height:44px;flex:none}
+  .mi b{display:block;font-size:15px;margin-bottom:2px}
+  .mi p{margin:0;font-size:13px;color:var(--muted);line-height:1.7}
+  .gallery{display:flex;gap:16px;justify-content:center;margin-top:30px;flex-wrap:wrap}
+  .gallery figure{margin:0;width:min(200px,44%);text-align:center}
+  .gallery img{border-radius:18px;box-shadow:0 12px 26px rgba(90,45,15,.18)}
+  .gallery figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+
+  /* 料金 */
+  .price{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .pcard{background:var(--paper);border:1.5px solid var(--line);border-radius:26px;padding:26px}
+  .pcard.pre{border-color:var(--or);box-shadow:0 10px 30px rgba(224,122,54,.14)}
+  .pcard h3{margin:0 0 4px;font-size:21px}
+  .pcard .yen{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:28px;margin:4px 0 2px}
+  .pcard .yen small{font-size:14px;font-weight:700;color:var(--muted)}
+  .pcard .note{font-size:13px;color:var(--muted);margin:0 0 14px}
+  .pcard ul{margin:0;padding-left:1.2em;font-size:14px}
+  .pcard li{margin:4px 0}
+  .pfine{margin-top:18px;font-size:13px;color:var(--muted);background:var(--paper);border-radius:18px;padding:16px 20px;border:1px dashed var(--line)}
+  .pfine p{margin:4px 0}
+
+  /* 安心 */
+  .safe{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .sc{text-align:center;padding:10px}
+  .sc svg{width:96px;height:96px;margin:0 auto 10px}
+  .sc b{display:block;font-family:"Zen Maru Gothic",sans-serif;font-size:18px}
+  .sc p{margin:4px 0 0;font-size:14px;color:var(--muted)}
+
+  /* 最後の呼びかけ */
+  .last{background:var(--navy);color:#fff;border-radius:36px;padding:clamp(32px,6vw,64px);display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,48px);align-items:center;position:relative;overflow:hidden}
+  .last h2{color:#fff}
+  .last p{color:#D4D9EE;margin:0 0 22px}
+  .last img.moon{width:clamp(150px,20vw,220px);height:auto;border-radius:28px}
+  .last .btn-store{background:#fff;color:#111}
+  .last .btn-store svg{fill:#111}
+  .last .btn-ghost{background:transparent;border-color:rgba(255,255,255,.35);color:#fff}
+
+  footer{padding:40px 0 56px;font-size:13px;color:var(--muted)}
+  .flinks{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:12px}
+  .flinks a{text-decoration:none}
+  .flinks a:hover{text-decoration:underline}
+
+  /* 出てくる動き */
+  .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+  .rv.on{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .rv{opacity:1;transform:none;transition:none}
+    .float{animation:none}
+    html{scroll-behavior:auto}
+  }
+
+  /* スマホ */
+  @media (max-width:820px){
+    section{padding:48px 0}
+    .hero{display:flex;flex-direction:column;align-items:stretch;padding-bottom:40px}
+    .hero>div:first-child{display:contents}
+    .app-id{order:1}.hero-art{order:2;max-width:420px;margin:0 auto 34px;width:100%}.hero h1{order:3}.hero p.sub{order:4}.cta{order:5}.badges{order:6}
+    .cta .btn{width:100%}
+    .wgrid{grid-template-columns:1fr}
+    .wcard{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center;text-align:left;padding:14px}
+    .wcard img{margin:0;border-radius:14px}
+    .step,.connect,.price{grid-template-columns:1fr}
+    .step{margin-bottom:56px}
+    .step.rev .step-art{order:0}
+    .step-art img{width:min(230px,64%)}
+    .more{grid-template-columns:1fr}
+    .safe{grid-template-columns:1fr}
+    .sc{display:grid;grid-template-columns:72px 1fr;gap:14px;text-align:left;align-items:center;padding:0}
+    .sc svg{width:72px;height:72px;margin:0}
+    .last{grid-template-columns:1fr;text-align:center}
+    .last img.moon{margin:0 auto}
+    .last .cta{justify-content:center}
+    .tl::before{left:25px}
+    .ti{grid-template-columns:52px 1fr;gap:12px}
+    .ti .ic{width:52px;height:52px}
+    
+  }
+
+  .gallery figure{width:min(200px,44%)}
+  .notice{margin-top:18px;font-size:13px;color:var(--muted)}
+  .sc .em{width:96px;height:96px;margin:0 auto 10px;border-radius:50%;background:var(--or-l);display:flex;align-items:center;justify-content:center;font-size:42px}
+  .mi .dot{width:44px;height:44px;flex:none;border-radius:50%;background:var(--or-l);display:flex;align-items:center;justify-content:center;font-size:22px}
+  @media (max-width:820px){ .sc .em{width:72px;height:72px;font-size:32px;margin:0} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="apple" viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.8 1.2 1.8 2.6 3.1 2.5 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.5.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-4.1zM13.9 5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></symbol>
+</svg>
+
+<div class="wrap">
+  <div class="top">
+    <a class="crumb" href="../../?app=kokedama">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      午前三時の発明所
+    </a>
+    <a href="../../kokedama/">サポート・よくある質問</a>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="app-id">
+        <img src="../../icons/kokedama.jpg" alt="こけだま日和のアイコン" width="64" height="64">
+        <div><b>こけだま日和</b><span>まんまる苔玉を育てる、のんびり放置ゲーム</span></div>
+      </div>
+      <h1><span class="nb">急がせない。減らない。</span><br><span class="nb"><em>縁側で苔玉と、</em></span><br><span class="nb"><em>のんびり。</em></span></h1>
+      <p class="sub">ふわふわの苔玉を、縁側で1体ずつ育てる放置ゲーム。ちょっとした時間に開いて、なでて、霧吹きをして、育ち具合を見る。毎朝の占いも届きます。</p>
+      <div class="cta"><a class="btn btn-store" href="https://apps.apple.com/jp/app/id6820950382" target="_blank" rel="noopener"><svg><use href="#apple"/></svg>App Store で見る</a><a class="btn btn-ghost" href="#how">どんなアプリ？</a></div>
+      <div class="badges"><span>iPhone</span><span>毎朝の占いつき</span><span>14日間すべて試せる</span><span>買い切り</span><span>広告なし</span></div>
+    </div>
+    <div class="hero-art">
+      <img src="img/hero.jpg" alt="縁側でまんまるの苔玉たちがひなたぼっこをしている絵" class="scene" width="1200" height="800">
+      <img class="phone float" src="../../shots/kokedama.jpg" alt="こけだま日和の画面" width="480" height="1043">
+    </div>
+  </header>
+</div>
+
+<section class="worry">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">こんな人に</span>
+      <h2>ゲームに、<br>追いかけられたくない人へ</h2>
+      <p class="h2sub">毎日ログインしないと損をする。イベントの期限に追われる。そんな遊び方に、少し疲れていませんか。</p>
+    </div>
+    <div class="wgrid">
+      <div class="wcard rv">
+        <img src="img/worry-1.jpg" alt="たくさんの通知に追われて疲れている人の絵" width="720" height="540" loading="lazy">
+        <div><b>毎日の義務に、疲れた</b><p>ログインしないと損をするゲームが、いつのまにか用事になっている。</p></div>
+      </div>
+      <div class="wcard rv">
+        <img src="img/worry-2.jpg" alt="寝る前にベッドでスマホを見てほっとしている人の絵" width="720" height="540" loading="lazy">
+        <div><b>寝る前に、少しだけ</b><p>寝る前や休憩中に、ほんの少しだけ癒やされたい。</p></div>
+      </div>
+      <div class="wcard rv">
+        <img src="img/worry-3.jpg" alt="かわいい苔玉を集めて並べている絵" width="720" height="540" loading="lazy">
+        <div><b>育てて、集めて、撮りたい</b><p>かわいいものを育てて、集めて、写真に残すのが好き。</p></div>
+      </div>
+    </div>
+    <div class="arrow-down rv"><div>
+      <svg viewBox="0 0 30 30" aria-hidden="true"><path d="M15 4 V24 M6 16 l9 9 l9 -9" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--or)"/></svg>
+      こけだま日和は、何日か開かなくても何も減らない
+    </div></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">こけだま日和でできること</span>
+      <h2>お世話は3つ。<br>朝には、今日の占い。</h2>
+    </div>
+    
+    <div class="step rv">
+      <div class="step-art">
+        <div class="blob" style="background:var(--or-l)"></div>
+        <img src="../../shots/kokedama-1.jpg" alt="なでる・霧吹き・ながめる、の3つのお世話の画面" width="480" height="1043" loading="lazy">
+        <img src="img/c-1.jpg" alt="" class="deco" style="right:4%;top:14%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">01</span>
+        <h3>苔玉は、<br>生きています</h3>
+        <p>つつくとびっくりして、なでるとうっとり。霧吹きをすると気持ちよさそうな顔になり、夜はすやすや眠ります。</p>
+        <ul><li>アプリを閉じている間も、ちゃんと育っている</li><li>次に開いた時に「おかえり」と教えてくれる</li></ul>
+      </div>
+    </div>
+    <div class="step rev rv">
+      <div class="step-art">
+        <div class="blob" style="background:#E8ECF6"></div>
+        <img src="03.jpg" alt="なかよし度と、覚えたしぐさの一覧" width="480" height="1043" loading="lazy">
+        <img src="img/c-2.jpg" alt="" class="deco" style="left:4%;bottom:12%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">02</span>
+        <h3>なかよしになると、<br>しぐさが増える</h3>
+        <p>出している苔玉をなでたり、霧吹きをしたりするとハートがたまります。ハートは減りません。</p>
+        <ul><li>名前を付けたり、しぐさを覚えたり、おでかけのおみやげを持って帰ってきたり</li><li>ハートがいっぱいになると、その種だけの受け皿が届く</li></ul>
+      </div>
+    </div>
+    <div class="step rv">
+      <div class="step-art">
+        <div class="blob" style="background:#FBEFC0"></div>
+        <img src="../../shots/kokedama-2.jpg" alt="縁側に小鳥や動物たちが遊びに来ている画面" width="480" height="1043" loading="lazy">
+        <img src="img/c-3.jpg" alt="" class="deco" style="right:4%;bottom:14%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">03</span>
+        <h3>小物を置くと、<br>お客さんが来る</h3>
+        <p>軒下・家の中・足元に小物を置くと、小鳥や動物たち（24種類）が遊びに来ます。</p>
+        <ul><li>見逃しても、写真を置いていってくれる</li></ul>
+      </div>
+    </div>
+    <div class="step rev rv">
+      <div class="step-art">
+        <div class="blob" style="background:#E6F1E4"></div>
+        <img src="../../shots/kokedama-3.jpg" alt="7種類の苔玉と着せ替えの一覧" width="480" height="1043" loading="lazy">
+        <img src="img/c-1.jpg" alt="" class="deco" style="left:4%;top:14%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">04</span>
+        <h3>7種類の苔玉と、<br>100種類以上の着せ替え</h3>
+        <p>種類ごとに顔つきと頭の芽が違います。完成まで育てると、その種類の双子を作れるようになります。</p>
+        <ul><li>塗り・柄・目もと・頭の飾り・受け皿・背景を自由に組み合わせ</li><li>お気に入りの組み合わせは6つまで保存</li><li>着せ替えは「苔みくじ」で。引くのはゲームの中のポイントだけで、お金では買えない</li></ul>
+      </div>
+    </div>
+    <div class="step rv">
+      <div class="step-art">
+        <div class="blob" style="background:var(--or-l)"></div>
+        <img src="05.jpg" alt="ホーム画面のウィジェットに、苔玉と今日の占いが出ている画面" width="480" height="1043" loading="lazy">
+        <img src="img/c-2.jpg" alt="" class="deco" style="right:4%;top:14%" width="300" height="300" loading="lazy">
+      </div>
+      <div>
+        <span class="num">05</span>
+        <h3>毎朝の占いが、<br>お知らせで届く</h3>
+        <p>朝のテレビの占いを見るくらいの気軽さで。誕生日と血液型を入れておくと、毎日の占いが届きます。</p>
+        <ul><li>総合運・恋愛運・仕事運・金運、ラッキーカラーとアイテム、月の満ち欠け</li><li>5つから1つ選ぶと、その日の星の数とひとことが毎朝のお知らせとウィジェットに（時刻は6時〜10時から選べる）</li><li>ウィジェットには、二十四節気と七十二候の「暦のひとこと」も</li><li>占いはゲームの有利・不利には関係なし。入れなくても遊べる</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="day rv">
+      <div class="center">
+        <span class="kicker">たとえば、こんな1日</span>
+        <h2>時間帯で、<br>縁側の景色が変わる</h2>
+      </div>
+      <div class="tl">
+        <div class="ti">
+          <div class="ic"><img src="img/d-1.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">朝</span><b>今日の占いが届く</b><p>選んだ運勢の星の数とひとことが、毎朝お知らせとウィジェットに。朝のテレビの占いのように、気軽にどうぞ。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-2.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">昼</span><b>歩くとポイント</b><p>1,000歩で1ポイント、1日10ポイントまで。使うかどうかは選べます。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-3.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">夕方</span><b>空の色と光が変わる</b><p>朝・昼・夕方・夜で、縁側の空の色と光が変わります。</p></div>
+        </div>
+        <div class="ti">
+          <div class="ic"><img src="img/d-4.jpg" alt="" width="240" height="238" loading="lazy"></div>
+          <div class="card"><span class="t">夜</span><b>蛍が飛び、苔玉は眠る</b><p>夜には蛍が飛びます。苔玉はすやすや眠ります。</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">ほかにも</span>
+      <h2>ゆっくり遊ぶから、<span class="nb">細かいところも</span></h2>
+    </div>
+    <div class="more">
+      <div class="mi rv"><div class="dot" aria-hidden="true">📸</div><div><b>写真とアルバム</b><p>その時の苔玉の姿を撮って残せます（ボタンなどは写りません）。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">🪟</div><div><b>おうちの景色</b><p>自分の部屋や窓辺をカメラで撮って、苔玉の背景にできます。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">🌧</div><div><b>雨や雪の日は、縁側にも</b><p>都道府県を選ぶと、雨や雪の日には縁側にも雨や雪が降ります（位置情報は使いません）。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">🍂</div><div><b>季節のたより</b><p>行事の日や旬の食べ物の「季節のたより」が、ときどき届きます。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">🗓</div><div><b>暦のひとこと</b><p>ウィジェットに、二十四節気と七十二候の「暦のひとこと」も出ます。</p></div></div>
+      <div class="mi rv"><div class="dot" aria-hidden="true">👯</div><div><b>双子と図鑑</b><p>育てた子は図鑑に残り、いつでも縁側に出せます。</p></div></div>
+    </div>
+    
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <div class="center rv">
+      <span class="kicker">料金</span>
+      <h2>はじめの14日間は、<span class="nb">すべて無料でお試し</span></h2>
+      <p class="h2sub">お試しが終わっても、自動でお金がかかることはありません。</p>
+    </div>
+    <div class="price">
+      <div class="pcard rv">
+        <h3>お試しのあとも続けられること</h3>
+        <div class="yen">0<small> 円</small></div>
+        <p class="note">育てた苔玉・図鑑・小物・写真はそのまま残ります</p>
+        <ul><li>育てる・新しい種を植える</li><li>苔みくじ・小物の交換</li><li>お客さんを見る・写真を撮る</li></ul>
+      </div>
+      <div class="pcard pre rv">
+        <h3>買い切りでひらくこと</h3>
+        <div class="yen">480<small> 円（1回だけ・月額なし）</small></div>
+        <p class="note">続けてすべての機能を使えます</p>
+        <ul><li>今日の占い（毎朝のお知らせ・ウィジェットの占いも）</li><li>双子を作る</li><li>かけらの交換（かけらは、お休みの間もたまります）</li></ul>
+      </div>
+    </div>
+    <div class="pfine rv"><p>・占いは、西洋占星術（あなたの星座と、その日に月がいる星座との関係）をもとに、数秘術・血液型・日本の暦を組み合わせて出しています。楽しむためのもので、結果を保証するものではありません。</p></div>
+  </div>
+</section>
+
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="safe">
+      <div class="sc rv"><div class="em" aria-hidden="true">🍵</div><div><b>急がせる仕掛けなし</b><p>スタミナも、時限イベントも、ランキングも、広告もありません。</p></div></div>
+      <div class="sc rv"><div class="em" aria-hidden="true">📱</div><div><b>記録は、端末の中だけ</b><p>記録と写真は、すべて端末の中だけに保存されます。アカウント登録もログインもありません。</p></div></div>
+      <div class="sc rv"><div class="em" aria-hidden="true">🌱</div><div><b>何日開かなくても</b><p>何日か開かなくても、何も減りません。</p></div></div>
+    </div>
+    <p class="notice center rv">苔の育て方を学ぶアプリではありません。登場する苔玉や生きものは、実在の苔や生きものから名前を借りた架空のものです。</p>
+  </div>
+</section>
+
+<section style="padding-top:24px">
+  <div class="wrap">
+    <div class="last rv">
+      <img src="img/night.jpg" alt="" class="moon" width="600" height="600" loading="lazy">
+      <div>
+        <h2>今日も、縁側でひと休み。</h2>
+        <p>はじめの14日間は、すべての機能を無料で。まずは1体、なでるところから。</p>
+        <div class="cta"><a class="btn btn-store" href="https://apps.apple.com/jp/app/id6820950382" target="_blank" rel="noopener"><svg><use href="#apple"/></svg>App Store で見る</a><a class="btn btn-ghost" href="../../kokedama/">よくある質問</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="flinks">
+      <a href="../../?app=kokedama">← 午前三時の発明所 トップ</a>
+      <a href="../../kokedama/">サポート</a>
+      <a href="../../kokedama/terms.html">利用規約</a>
+      <a href="../../kokedama/privacy-policy.html">プライバシーポリシー</a>
+    </div>
+    <div style="margin-top:6px">© 午前三時の発明所</div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els=document.querySelectorAll('.rv');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('on')});return;}
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}})},{rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>
