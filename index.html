@@ -3,64 +3,137 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>午前三時の発明所 — 困ったから、つくった。</title>
-<meta name="description" content="昼夜交替の勤務をしながら、ひとりでつくっているiPhoneアプリ。自分と家族が困ったことを、ひとつずつ形にしています。登録なし・広告なし・買い切り中心。">
-<meta property="og:title" content="午前三時の発明所">
-<meta property="og:description" content="困ったから、つくった。登録なし・広告なし・買い切り中心のiPhoneアプリ。">
+<title>午前三時の発明所 — 困ったから、つくった。｜個人開発のiPhoneアプリ</title>
+<meta name="description" content="ひとりでつくっているiPhoneアプリの公式サイト。夜勤のある家族の予定共有「よてい家」、仕事の写真を分ける「仮置きカメラ」、釣り記録「みなも」など。暮らしと仕事の小さな困りごとを、ひとつずつ形にしています。">
+<link rel="canonical" href="https://kazuari86.github.io/arima-apps/">
+<meta name="theme-color" content="#F4F2EC">
+<meta property="og:site_name" content="午前三時の発明所">
+<meta property="og:title" content="午前三時の発明所 — 困ったから、つくった。">
+<meta property="og:description" content="暮らしの小さな困りごとから、仕事の不便まで。毎日を少し楽にするiPhoneアプリを、ひとりでつくっています。">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://kazuari86.github.io/arima-apps/">
+<meta property="og:image" content="https://kazuari86.github.io/arima-apps/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
   :root{
-    --bg:#F4F2EC; --ink:#17191D; --muted:#4F535B; --faint:#7A7F88; --line:#DDD9CF;
+    --bg:#F4F2EC; --paper:#FBFAF6; --ink:#17191D; --muted:#4F535B; --faint:#73787F; --line:#DDD9CF;
     --accent:#4A5BCF;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",system-ui,-apple-system,"Hiragino Sans","Yu Gothic UI",sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
   a{color:inherit;text-decoration:none}
-  img{display:block;max-width:100%}
+  img{display:block;max-width:100%;height:auto}
+  :focus-visible{outline:3px solid var(--accent);outline-offset:3px}
   .wrap{max-width:1280px;margin:0 auto;padding:0 clamp(16px,5vw,72px)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
+  /* ヘッダー */
   header{display:flex;justify-content:space-between;align-items:center;padding:22px 0;gap:16px}
-  .brand{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .brand svg{width:22px;height:22px;flex:none}
   .brand b{font-size:19px;font-weight:900;letter-spacing:.04em}
   .brand i{font-family:"Instrument Serif",serif;font-size:15px;color:var(--faint)}
   nav{display:flex;gap:clamp(14px,3vw,32px);font-size:14px;font-weight:500}
+  nav a{padding:6px 0}
   nav a:hover{opacity:.7}
 
+  /* ヒーロー */
   .hero{display:grid;grid-template-columns:7fr 5fr;gap:32px;align-items:center;padding:24px 0 0;position:relative}
-  .hero h1{margin:0 0 20px;font-size:clamp(44px,7vw,92px);line-height:1.12;font-weight:900;letter-spacing:-.03em}
+  .hero h1{margin:0 0 18px;font-size:clamp(44px,7vw,92px);line-height:1.12;font-weight:900;letter-spacing:-.03em}
   .hero h1 .dot{color:var(--accent);transition:color .35s}
-  .hero .line{margin:0 0 14px;font-size:clamp(18px,2.2vw,24px);line-height:1.6;font-weight:700;min-height:2.4em}
+  .lead{margin:0 0 34px;font-size:clamp(15px,1.5vw,17px);color:var(--muted);max-width:30em;line-height:1.9}
+  .now{display:inline-flex;align-items:center;gap:10px;margin:0 0 12px;padding:6px 14px 6px 6px;border:1px solid var(--line);border-radius:999px;background:var(--paper);font-size:13px;color:var(--muted)}
+  .now img,.now .ph{width:28px;height:28px;border-radius:24%}
+  .now b{color:var(--ink);font-weight:700}
+  .hero .line{margin:0 0 12px;font-size:clamp(19px,2.2vw,25px);line-height:1.6;font-weight:700;min-height:2.4em}
   .hero .desc{margin:0 0 26px;font-size:16px;color:var(--muted);max-width:520px;min-height:4.2em}
-  .cta{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-  .btn{display:inline-flex;align-items:center;height:54px;padding:0 28px;background:var(--ink);color:var(--bg);border-radius:999px;font-weight:700;font-size:15px;transition:opacity .2s}
-  .btn:hover{opacity:.8}
-  .btn.muted{background:transparent;color:var(--faint);border:1px solid var(--line);cursor:default}
+  .fade{transition:opacity .25s ease}
+  .fade.out{opacity:0}
+  .cta{display:flex;gap:12px 20px;align-items:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 26px;background:var(--ink);color:var(--bg);border-radius:999px;font-weight:700;font-size:15px;transition:opacity .2s,transform .2s;text-align:center}
+  .btn:hover{opacity:.85;transform:translateY(-1px)}
+  .btn svg{width:18px;height:18px;flex:none}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+  .btn.muted{background:transparent;color:var(--faint);border:1px solid var(--line);cursor:default;transform:none}
+  .more{font-size:14px;font-weight:700;border-bottom:1px solid currentColor;padding:4px 0}
   .tag{font-family:"Instrument Serif",serif;font-style:italic;font-size:17px;color:var(--faint)}
 
   .stage{position:relative;height:700px}
   .blob{position:absolute;right:-40px;top:30px;width:min(560px,100%);aspect-ratio:1;border-radius:50%;background:var(--accent);opacity:.14;transition:background .35s}
+  .moon{position:absolute;left:4%;top:18px;width:74px;color:var(--ink);opacity:.85}
+  .moon .st{fill:var(--accent);transition:fill .35s}
   .phone{position:absolute;left:50%;top:40px;width:min(270px,70%);transform:translateX(-50%) rotate(4deg);border-radius:28px;overflow:hidden;box-shadow:0 30px 60px rgba(23,25,29,.22);background:#fff;transition:opacity .25s}
   .phone.swap{opacity:0}
-  .phone img{width:100%;height:auto}
+  .phone img{width:100%}
   .phone.empty{aspect-ratio:442/960;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:14px;background:#e9e6de}
 
-  .icons{display:flex;justify-content:center;gap:clamp(14px,2.5vw,28px);flex-wrap:wrap;padding:36px 0 8px}
-  .ico{border:0;padding:0;background:transparent;cursor:pointer;border-radius:30px;transition:transform .2s,opacity .2s;opacity:.72;position:relative}
-  .ico img,.ico .ph{width:clamp(72px,9vw,112px);height:clamp(72px,9vw,112px);border-radius:24%;box-shadow:0 12px 24px rgba(23,25,29,.14)}
-  .ico .ph{display:flex;align-items:center;justify-content:center;background:#2A2D3A;color:#fff;font-size:12px;font-weight:700;line-height:1.3;text-align:center;padding:6px}
-  .ico:hover{transform:translateY(-4px);opacity:1}
-  .ico.on{opacity:1;transform:translateY(-4px);box-shadow:0 0 0 4px var(--bg),0 0 0 8px var(--accent)}
-  .ico.coming{opacity:.4}
-  .ico .badge{position:absolute;top:-8px;right:-8px;background:var(--ink);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;letter-spacing:.06em}
-  .hint{text-align:center;font-size:13px;color:var(--faint);margin:14px 0 48px}
+  /* 見出し */
+  .eyebrow{font-family:"Instrument Serif",serif;font-style:italic;font-size:18px;color:var(--faint);margin:0}
+  .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:0 0 26px}
+  .sec-h h2{margin:0;font-size:clamp(24px,2.6vw,32px);font-weight:900;letter-spacing:.02em}
 
-  section.band{padding:64px 0;border-top:1px solid var(--line)}
+  /* アプリ一覧 */
+  #apps{padding:72px 0 8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+  .card{appearance:none;border:1px solid transparent;background:transparent;font:inherit;color:inherit;text-align:left;cursor:pointer;border-radius:20px;padding:16px 14px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;position:relative;transition:background .2s,border-color .2s,transform .2s}
+  .card:hover{background:var(--paper);transform:translateY(-2px)}
+  .card[aria-pressed="true"]{background:var(--paper);border-color:var(--line);box-shadow:0 10px 26px rgba(23,25,29,.07)}
+  .card .ic{position:relative}
+  .card img,.card .ph{width:72px;height:72px;border-radius:24%;box-shadow:0 10px 20px rgba(23,25,29,.14)}
+  .card[aria-pressed="true"] .ic::after{content:"";position:absolute;inset:-6px;border-radius:28%;border:3px solid var(--accent)}
+  .ph{display:flex;align-items:center;justify-content:center;background:#2A2D3A;color:#fff;font-size:11px;font-weight:700;line-height:1.3;text-align:center;padding:4px}
+  .card .nm{font-size:16px;font-weight:700;line-height:1.4}
+  .card .sh{font-size:13px;color:var(--muted);line-height:1.6;margin-top:-6px}
+  .card.coming{opacity:.62}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;letter-spacing:.04em;line-height:1.6}
+  .badge.on{background:#E7E4DA;color:var(--muted)}
+  .badge.soon{background:var(--ink);color:#fff}
+  .hint{font-size:13px;color:var(--faint);margin:16px 0 0}
+
+  /* 詳しい紹介 */
+  #detail{padding:44px 0 80px}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:clamp(22px,4vw,48px);position:relative;overflow:hidden}
+  .panel::before{content:"";position:absolute;left:0;top:0;right:0;height:6px;background:var(--accent);transition:background .35s}
+  .d-head{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;margin-bottom:36px}
+  .d-head img,.d-head .ph{width:84px;height:84px;border-radius:24%;box-shadow:0 10px 22px rgba(23,25,29,.14)}
+  .d-head h3{margin:0;font-size:clamp(24px,2.6vw,32px);font-weight:900;line-height:1.3}
+  .d-head .cat{margin:0 0 2px;font-size:13px;color:var(--faint);font-weight:500}
+  .d-head .catch{margin:6px 0 0;font-size:clamp(16px,1.6vw,18px);font-weight:700;color:var(--muted);line-height:1.6}
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,32px);margin:0 0 40px;padding:0;list-style:none}
+  .feat figure{margin:0 0 16px;border-radius:22px;overflow:hidden;box-shadow:0 18px 36px rgba(23,25,29,.13);background:#e9e6de;aspect-ratio:480/1043}
+  .feat figure img{width:100%;height:100%;object-fit:cover}
+  .feat .no{font-family:"Instrument Serif",serif;font-size:22px;color:var(--accent);line-height:1;transition:color .35s}
+  .feat h4{margin:6px 0 6px;font-size:17px;font-weight:700;line-height:1.5}
+  .feat p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.85}
+  .d-info{display:grid;grid-template-columns:1fr 1fr;gap:20px 40px;border-top:1px solid var(--line);padding-top:32px}
+  .d-info h4{margin:0 0 10px;font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--faint)}
+  .d-info p{margin:0;font-size:15px;line-height:1.9}
+  .d-info ul{margin:0;padding:0;list-style:none}
+  .d-info li{position:relative;padding-left:20px;margin:0 0 8px;font-size:15px;line-height:1.75}
+  .d-info li::before{content:"";position:absolute;left:2px;top:.72em;width:8px;height:8px;border-radius:50%;background:var(--accent);transition:background .35s}
+  .d-info .wide{grid-column:1/-1}
+  .price{background:var(--bg);border-radius:16px;padding:16px 18px}
+  .d-cta{display:flex;gap:12px 20px;align-items:center;flex-wrap:wrap;margin-top:32px}
+  .soon-box{padding:20px 0 4px;color:var(--muted)}
+
+  /* つくっている人 */
+  section.band{padding:72px 0;border-top:1px solid var(--line)}
   .two{display:grid;grid-template-columns:1fr 2fr;gap:40px}
   .two h2{margin:0;font-family:"Instrument Serif",serif;font-size:34px;font-weight:400;line-height:1.3}
-  .two p{margin:0;font-size:16px;color:var(--muted);line-height:2}
+  .about p{margin:0 0 14px;font-size:16px;color:var(--muted);line-height:2}
+  .prin{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:26px 0 0;padding:0;list-style:none}
+  .prin li{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px}
+  .prin b{display:block;font-size:15px;margin-bottom:6px}
+  .prin span{font-size:13.5px;color:var(--muted);line-height:1.8}
   .notes li{margin:0 0 10px}
   .notes a{border-bottom:1px solid var(--ink)}
   .notes time{color:var(--faint);font-size:13px;margin-left:10px}
@@ -68,23 +141,60 @@
   footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:28px 0 40px;font-size:13px;color:var(--faint);border-top:1px solid var(--line)}
   footer nav{gap:20px}
 
+  @media (max-width:980px){
+    .prin{grid-template-columns:1fr}
+  }
   @media (max-width:820px){
-    .hero{grid-template-columns:1fr;min-height:0;padding-top:24px}
-    .stage{height:auto;order:-1;padding:8px 0 0}
-    .blob{right:auto;left:50%;top:0;width:280px;transform:translateX(-50%)}
-    .phone{position:relative;left:auto;top:0;transform:rotate(3deg);width:220px;margin:16px auto 0}
-    .hero h1{text-align:left}
+    /* スマホ: 言葉 → 画面 → 選んだアプリの説明 の順に縦に読む */
+    .hero{display:flex;flex-direction:column;align-items:stretch;padding-top:12px;gap:0}
+    .hero>div:first-child{display:contents}
+    .hero h1{order:1;margin-bottom:14px}
+    .lead{order:2;margin-bottom:8px}
+    .stage{order:3;height:auto;padding:4px 0 8px}
+    #hBox{order:4}
+    .blob{right:auto;left:50%;top:6px;width:250px;transform:translateX(-50%)}
+    .moon{left:4%;top:8px;width:48px}
+    .phone{position:relative;left:auto;top:0;transform:rotate(3deg);width:180px;margin:20px auto 0}
+    .cta .btn{width:100%}
     .two{grid-template-columns:1fr;gap:16px}
-    header{flex-direction:column;align-items:flex-start;gap:10px}
+    header{flex-direction:column;align-items:flex-start;gap:6px}
+    #apps{padding-top:56px}
+    .grid{grid-template-columns:repeat(2,1fr);gap:8px}
+    .card{padding:14px 12px 16px}
+    .card img,.card .ph{width:60px;height:60px}
+    .d-head{grid-template-columns:auto 1fr;gap:14px;margin-bottom:26px}
+    .d-head img,.d-head .ph{width:64px;height:64px}
+    .d-head .side{grid-column:1/-1}
+    /* 特徴3つは、指で横に送るカード（ページ自体は横に動かない） */
+    .feats{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1*clamp(22px,4vw,48px)) 32px;padding:0 clamp(22px,4vw,48px) 8px;scrollbar-width:none}
+    .feats::-webkit-scrollbar{display:none}
+    .feat{flex:0 0 78%;scroll-snap-align:start}
+    .d-info{grid-template-columns:1fr;gap:24px}
+    .d-cta .btn{width:100%}
+    section.band{padding:56px 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;scroll-behavior:auto!important}
   }
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","name":"午前三時の発明所","alternateName":"3 a.m. inventions","url":"https://kazuari86.github.io/arima-apps/","inLanguage":"ja"}
+</script>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="moon" viewBox="0 0 64 64">
+    <path d="M40 8a24 24 0 1 0 16 38A20 20 0 0 1 40 8z" fill="currentColor"/>
+  </symbol>
+  <symbol id="arrow" viewBox="0 0 24 24">
+    <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
 <div class="wrap">
 
   <header>
-    <a class="brand" href="./"><b id="siteName">午前三時の発明所</b><i id="siteTag">3 a.m. inventions</i></a>
-    <nav>
+    <a class="brand" href="./" aria-label="午前三時の発明所 トップ"><svg aria-hidden="true"><use href="#moon"/></svg><b id="siteName">午前三時の発明所</b><i id="siteTag">3 a.m. inventions</i></a>
+    <nav aria-label="サイト内">
       <a href="#apps">アプリ</a>
       <a href="#story">つくる人</a>
       <a href="#notes" id="navNotes" hidden>記事</a>
@@ -92,49 +202,74 @@
     </nav>
   </header>
 
-  <section class="hero">
+  <main>
+  <section class="hero" aria-labelledby="h1">
     <div>
-      <h1>困ったから、<br>つくった<span class="dot">。</span></h1>
-      <p class="line" id="hLine"></p>
-      <p class="desc" id="hDesc"></p>
-      <div class="cta">
-        <a class="btn" id="hBtn" href="#" target="_blank" rel="noopener"></a>
-        <span class="tag" id="hTag"></span>
+      <h1 id="h1">困ったから、<br>つくった<span class="dot">。</span></h1>
+      <p class="lead" id="lead"></p>
+      <div class="fade" id="hBox">
+        <p class="now" id="hNow"></p>
+        <p class="line" id="hLine"></p>
+        <p class="desc" id="hDesc"></p>
+        <div class="cta">
+          <a class="btn" id="hBtn" href="#" target="_blank" rel="noopener"></a>
+          <a class="more" href="#detail">くわしく見る</a>
+          <span class="tag" id="hTag"></span>
+        </div>
       </div>
     </div>
-    <div class="stage">
+    <div class="stage" aria-hidden="false">
       <div class="blob"></div>
+      <svg class="moon" viewBox="0 0 80 64" aria-hidden="true">
+        <use href="#moon" width="64" height="64"/>
+        <circle class="st" cx="70" cy="12" r="3"/>
+        <circle class="st" cx="76" cy="30" r="2"/>
+      </svg>
       <div class="phone" id="hPhone"></div>
     </div>
   </section>
 
-  <section id="apps">
-    <div class="icons" id="icons"></div>
-    <p class="hint">アイコンを押すと、上の言葉と画面が切り替わります</p>
+  <section id="apps" aria-labelledby="appsH">
+    <div class="sec-h">
+      <h2 id="appsH">アプリ</h2>
+      <p class="eyebrow">Apps</p>
+    </div>
+    <div class="grid" id="icons" role="group" aria-label="アプリを選ぶ"></div>
+    <p class="hint">アプリを押すと、上の言葉と画面、下のくわしい紹介が切り替わります</p>
   </section>
 
-  <section class="band" id="story">
+  <section id="detail" aria-label="選んだアプリのくわしい紹介">
+    <div class="panel fade" id="panel" aria-live="polite"></div>
+  </section>
+
+  <section class="band" id="story" aria-labelledby="storyH">
     <div class="two">
-      <h2>つくっている人</h2>
-      <p id="about"></p>
+      <h2 id="storyH">つくっている人</h2>
+      <div class="about">
+        <div id="about"></div>
+        <ul class="prin" id="prin"></ul>
+      </div>
     </div>
   </section>
 
-  <section class="band" id="notes" hidden>
+  <section class="band" id="notes" hidden aria-labelledby="notesH">
     <div class="two">
-      <h2>記事</h2>
+      <h2 id="notesH">記事</h2>
       <ul class="notes" id="noteList" style="list-style:none;margin:0;padding:0"></ul>
     </div>
   </section>
+  </main>
 
   <footer>
     <span>© 2026 <span id="footName">午前三時の発明所</span></span>
-    <nav>
+    <nav aria-label="サポート">
       <a href="support.html">サポート</a>
       <a id="mail" href="#">お問い合わせ</a>
     </nav>
   </footer>
 </div>
+
+<noscript><p style="text-align:center;padding:16px">アプリの紹介を表示するには JavaScript を有効にしてください。<a href="support.html">サポート一覧</a>からも各アプリのページを開けます。</p></noscript>
 
 <script src="apps.js"></script>
 <script>
@@ -142,11 +277,20 @@
   const S = window.SITE || {};
   const all = (window.APPS || []).filter(a => a.status !== "hidden");
   const $ = id => document.getElementById(id);
+  // 文字を HTML に入れる時は必ずこれを通す
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const arrow = '<svg aria-hidden="true"><use href="#arrow"/></svg>';
+  const iconHtml = (a, alt) => a.icon
+    ? `<img src="${esc(a.icon)}" alt="${esc(alt || "")}" width="512" height="512">`
+    : `<span class="ph">${esc(a.name)}</span>`;
 
   $("siteName").textContent = S.name || "";
   $("siteTag").textContent = S.tagline || "";
   $("footName").textContent = S.name || "";
-  $("about").textContent = S.about || "";
+  $("lead").textContent = S.lead || "";
+  const about = Array.isArray(S.about) ? S.about : [S.about || ""];
+  $("about").innerHTML = about.map(p => `<p>${esc(p)}</p>`).join("");
+  $("prin").innerHTML = (S.principles || []).map(p => `<li><b>${esc(p.title)}</b><span>${esc(p.body)}</span></li>`).join("");
   if (S.email) $("mail").href = "mailto:" + S.email;
 
   // 記事（あるときだけ出す）
@@ -154,47 +298,98 @@
   if (notes.length){
     $("notes").hidden = false; $("navNotes").hidden = false;
     $("noteList").innerHTML = notes.map(n =>
-      `<li><a href="${n.url}">${n.title}</a>${n.date ? `<time>${n.date}</time>` : ""}</li>`).join("");
+      `<li><a href="${esc(n.url)}">${esc(n.title)}</a>${n.date ? `<time>${esc(n.date)}</time>` : ""}</li>`).join("");
   }
 
-  // アイコン列
+  // アプリ一覧（アイコン＋名前＋ひとこと）
   const icons = $("icons");
   all.forEach((a, i) => {
     const b = document.createElement("button");
-    b.type = "button"; b.className = "ico" + (a.status === "coming" ? " coming" : "");
-    b.setAttribute("aria-label", a.name); b.dataset.i = i;
-    b.innerHTML = a.icon
-      ? `<img src="${a.icon}" alt="">`
-      : `<span class="ph">${a.name}</span>`;
-    if (a.status === "coming") b.innerHTML += `<span class="badge">近日</span>`;
-    b.addEventListener("click", () => select(i));
+    b.type = "button"; b.className = "card" + (a.status === "coming" ? " coming" : "");
+    b.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-controls", "panel");
+    b.innerHTML =
+      `<span class="ic">${iconHtml(a, "")}</span>` +
+      `<span class="nm">${esc(a.name)}</span>` +
+      `<span class="sh">${esc(a.short || a.category || "")}</span>` +
+      (a.status === "coming" ? `<span class="badge soon">近日公開</span>` : "");
+    b.addEventListener("click", () => select(i, true));
     icons.appendChild(b);
   });
 
+  function storeBtn(a, cls){
+    if (a.status === "released" && a.store){
+      return `<a class="btn${cls ? " " + cls : ""}" href="${esc(a.store)}" target="_blank" rel="noopener" aria-label="${esc(a.name)} を App Store で見る（新しいタブ）">App Store で見る ${arrow}</a>`;
+    }
+    return `<span class="btn muted">${esc(a.name)}（近日公開）</span>`;
+  }
+
+  function panelHtml(a){
+    const head =
+      `<div class="d-head">${iconHtml(a, a.name + " のアイコン")}` +
+      `<div><p class="cat">${esc(a.category || "")}</p><h3>${esc(a.name)}</h3><p class="catch">${esc(a.line || "")}</p></div>` +
+      `<div class="side">${storeBtn(a)}</div></div>`;
+    if (a.status !== "released" || !a.features){
+      return head + `<p class="soon-box">いま準備中です。公開したら、ここでくわしくご紹介します。</p>`;
+    }
+    const feats = `<ul class="feats">` + a.features.map((f, k) =>
+      `<li class="feat"><figure><img src="${esc(f.shot)}" alt="${esc(a.name)} の画面：${esc(f.title)}" width="480" height="1043" loading="lazy" decoding="async"></figure>` +
+      `<span class="no">0${k + 1}</span><h4>${esc(f.title)}</h4><p>${esc(f.body)}</p></li>`).join("") + `</ul>`;
+    const info =
+      `<div class="d-info">` +
+      `<div><h4>こんな人に</h4><ul>${(a.forWho || []).map(w => `<li>${esc(w)}</li>`).join("")}</ul></div>` +
+      `<div><h4>使うと、こう変わる</h4><p>${esc(a.benefit || "")}</p></div>` +
+      `<div class="wide price"><h4>料金</h4><p>${esc(a.price || "")}</p></div>` +
+      `</div>`;
+    const cta =
+      `<div class="d-cta">${storeBtn(a)}` +
+      (a.support ? `<a class="more" href="${esc(a.support)}">サポート・よくある質問</a>` : "") +
+      `</div>`;
+    return head + feats + info + cta;
+  }
+
   let cur = -1;
-  function select(i){
+  function select(i, byUser){
     if (i === cur) return;
     const a = all[i]; cur = i;
     document.documentElement.style.setProperty("--accent", a.accent || "#4A5BCF");
-    $("hLine").textContent = a.line || "";
-    $("hDesc").textContent = a.desc || "";
-    $("hTag").textContent  = a.tag  || "";
-    const btn = $("hBtn");
-    if (a.status === "released" && a.store){
-      btn.textContent = a.name + " を App Store で見る"; btn.href = a.store; btn.className = "btn";
-    } else {
-      btn.textContent = a.name + "（近日公開）"; btn.removeAttribute("href"); btn.className = "btn muted";
-    }
-    const ph = $("hPhone");
-    ph.classList.add("swap");
+
+    // 上（ヒーロー）
+    const box = $("hBox"), panel = $("panel"), ph = $("hPhone");
+    const first = !byUser;
+    if (!first){ box.classList.add("out"); panel.classList.add("out"); ph.classList.add("swap"); }
     setTimeout(() => {
+      $("hNow").innerHTML = `${iconHtml(a, "")}<span><b>${esc(a.name)}</b>　${esc(a.short || a.category || "")}</span>`;
+      $("hLine").textContent = a.line || "";
+      $("hDesc").textContent = a.desc || "";
+      $("hTag").textContent  = a.tag  || "";
+      const btn = $("hBtn");
+      if (a.status === "released" && a.store){
+        btn.innerHTML = `${esc(a.name)} を App Store で見る ${arrow}`; btn.href = a.store; btn.className = "btn";
+        btn.setAttribute("aria-label", `${a.name} を App Store で見る（新しいタブ）`);
+      } else {
+        btn.textContent = a.name + "（近日公開）"; btn.removeAttribute("href"); btn.className = "btn muted";
+        btn.removeAttribute("aria-label");
+      }
       ph.className = "phone" + (a.shot ? "" : " empty");
-      ph.innerHTML = a.shot ? `<img src="${a.shot}" alt="${a.name} の画面">` : "準備中";
-    }, 220);
-    icons.querySelectorAll(".ico").forEach((el, k) => el.classList.toggle("on", k === i));
+      ph.innerHTML = a.shot ? `<img src="${esc(a.shot)}" alt="${esc(a.name)} の画面" width="442" height="960">` : "準備中";
+      panel.innerHTML = panelHtml(a);
+      box.classList.remove("out"); panel.classList.remove("out");
+    }, first ? 0 : 220);
+
+    icons.querySelectorAll(".card").forEach((el, k) => el.setAttribute("aria-pressed", k === i ? "true" : "false"));
+
+    // 住所に ?app=<id> を残す（そのまま共有・ブックマークできる）
+    if (byUser && history.replaceState){
+      const u = new URL(location.href); u.searchParams.set("app", a.id); u.hash = "";
+      history.replaceState(null, "", u);
+    }
   }
-  const first = all.findIndex(a => a.status === "released");
-  select(first < 0 ? 0 : first);
+
+  const want = new URLSearchParams(location.search).get("app");
+  let start = all.findIndex(a => a.id === want);
+  if (start < 0) start = all.findIndex(a => a.status === "released");
+  select(start < 0 ? 0 : start, false);
 })();
 </script>
 </body>
