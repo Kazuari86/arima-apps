@@ -64,7 +64,9 @@
   .btn svg{width:18px;height:18px;flex:none}
   .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
   .btn.muted{background:transparent;color:var(--faint);border:1px solid var(--line);cursor:default;transform:none}
-  .more{font-size:14px;font-weight:700;border-bottom:1px solid currentColor;padding:4px 0}
+  .more{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 24px;border-radius:999px;font-size:15px;font-weight:700;color:var(--ink);background:#fff;border:2px solid var(--accent);box-shadow:0 6px 16px -8px var(--accent);transition:border-color .35s,box-shadow .35s,transform .2s}
+  .more:hover{transform:translateY(-1px)}
+  .more .arr{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;transition:background .35s}
   .tag{font-family:"Instrument Serif",serif;font-style:italic;font-size:17px;color:var(--faint)}
 
   .stage{position:relative;height:700px}
@@ -213,7 +215,7 @@
         <p class="desc" id="hDesc"></p>
         <div class="cta">
           <a class="btn" id="hBtn" href="#" target="_blank" rel="noopener"></a>
-          <a class="more" id="hMore" href="#apps" hidden>紹介ページを見る →</a>
+          <a class="more" id="hMore" href="#apps" hidden>紹介ページを見る<span class="arr" aria-hidden="true">→</span></a>
           <span class="tag" id="hTag"></span>
         </div>
       </div>
@@ -363,7 +365,7 @@
       const more = $("hMore");
       // くわしい紹介は各アプリの紹介ページ（apps/<id>/）。無いアプリはリンクを出さない
       more.hidden = !a.page;
-      if (a.page) { more.href = a.page; more.textContent = "紹介ページを見る →"; }
+      if (a.page) { more.href = a.page;  }
       const btn = $("hBtn");
       if (a.status === "released" && a.store){
         btn.innerHTML = `${esc(a.name)} を App Store で見る ${arrow}`; btn.href = a.store; btn.className = "btn";
